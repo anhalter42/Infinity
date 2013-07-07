@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="nifty">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/nifty-1.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/nifty-default-controls-1.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/nifty-html-1.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/nifty-lwjgl-renderer-1.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/nifty-openal-soundsystem-1.3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/eventbus-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/xpp3-1.1.4c.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <!-- <useStyles filename="nifty-default-styles.xml" /> -->
+    <style id="label">
+        <attributes font="resources/fonts/arial-24-regular.fnt"/>
+        <!-- <attributes font="resources/fonts/captitals-32.fnt"/> -->
+        <!--
+        <effect>
+            <onHover name="pulsate" scaleFactor="0.008" startColor="#f664" endColor="#fff4" post="true"/>
+        </effect>
+        -->
+    </style>
+    <useControls filename="nifty-default-controls.xml"/>
+    <screen id="start">
+        <layer childLayout="center" backgroundColor="#3361">
+            <panel childLayout="vertical" width="75%">
+                <effect>
+                    <onStartScreen name="move" mode="in" direction="top" length="300" startDelay="0" inherit="true"/>
+                    <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
+                </effect>
+                <text id="text1" style="label" height="15%" width="100%"
+                      backgroundColor="#f6fa" text="TextHAlign: center, TextVAlign: top"
+                      textHAlign="center" textVAlign="top">
+                </text>
+                <text id="text2" style="label" height="15%" width="100%"
+                      backgroundColor="#f8fa" text="TextHAlign: center, TextVAlign: center"
+                      textHAlign="center" textVAlign="center">
+                </text>
+                <text id="text3" style="label" height="15%" width="100%"
+                      backgroundColor="#fafa" text="TextHAlign: center, TextVAlign: bottom"
+                      textHAlign="center" textVAlign="bottom">
+                </text>
+                <text id="text4" style="label" height="15%" width="100%"
+                      backgroundColor="#fcfa" text="TextHAlign: left, TextVAlign: center"
+                      textHAlign="left" textVAlign="center">
+                </text>
+                <text id="text5" style="label" height="15%" width="100%"
+                      backgroundColor="#fefa" text="TextHAlign: center, TextVAlign: center"
+                      textHAlign="center" textVAlign="center">
+                </text>
+                <text id="text6" style="label" height="15%" width="100%"
+                      backgroundColor="#fffa" text="TextHAlign: right, TextVAlign: center"
+                      textHAlign="right" textVAlign="center">
+                </text>
+            </panel>
+        </layer>
+    </screen>
+</nifty>
