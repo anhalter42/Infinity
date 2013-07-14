@@ -51,9 +51,12 @@ public class CubeMain {
     private float rotZ;
     private float scale = 0.25f;
     private int program;
+    private int ticks = 0;
     private ArrayList<Cube> cubes = new ArrayList<Cube>();
     private static final LWJGLTimer timer = new LWJGLTimer();
-    private boolean showUI = false;
+    private boolean showUI = true;
+    private Nifty nifty;
+    private int lastUIToggleTick = 0;
 
     public static void main(String[] args) {
         System.out.println("starting CubeMain prototyp...");
@@ -100,11 +103,11 @@ public class CubeMain {
         inputSystem.startup();
         Logger logger = Logger.getLogger("de.lessvoid.nifty");
         logger.setLevel(Level.WARNING);
-        Nifty nifty = new Nifty(renderDevice, new NullSoundDevice(), inputSystem, new AccurateTimeProvider());
+        nifty = new Nifty(renderDevice, new NullSoundDevice(), inputSystem, new AccurateTimeProvider());
         String niftyVersion = nifty.getVersion();
         System.out.println("nifty version: " + niftyVersion);
 
-        nifty.fromXml("resources/ui/menu.xml", "start");
+        nifty.fromXml("resources/ui/menu.xml", "welcome");
         //nifty.gotoScreen("start");
         //Screen startscreen = nifty.getScreen("start");
         //System.out.println("bound " + startscreen.isBound());
@@ -203,6 +206,13 @@ public class CubeMain {
         boolean done = false;
         timer.initialize();
         while (!Display.isCloseRequested() && !done) {
+            ticks++;
+            if (ticks > 120 && nifty.getCurrentScreen().getScreenId().equals("welcome")) {
+                nifty.gotoScreen("keys");
+            }
+            if (ticks > 360 && nifty.getCurrentScreen().getScreenId().equals("keys")) {
+                nifty.gotoScreen("menu");
+            }
             // render OpenGL here
             GL11.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //GL11.glClear(GL_DEPTH_BUFFER_BIT);
@@ -211,7 +221,7 @@ public class CubeMain {
             glUseProgram(program);
 
             renderGLScene();
-            glUseProgram(program);
+            //glUseProgram(program);
             glUseProgram(0);
 
             //Display.update();
@@ -237,12 +247,25 @@ public class CubeMain {
             glDisable(GL11.GL_LIGHTING);
             //glEnable(GL11.GL_TEXTURE_2D);
 
+            if (ticks > 400) {
+                if (showUI && !nifty.getCurrentScreen().getScreenId().equals("menu")) {
+                    nifty.gotoScreen("menu");
+                } else if (!showUI && !nifty.getCurrentScreen().getScreenId().equals("empty")) {
+                    nifty.gotoScreen("empty");
+                }
+            }
+            if (nifty.update()) {
+                done = true;
+            }
+            nifty.render(false);
+            /*
             if (showUI) {
                 if (nifty.update()) {
                     done = true;
                 }
                 nifty.render(false);
             }
+            */
 
             timer.update();
 
@@ -274,14 +297,15 @@ public class CubeMain {
             for (int z = -h; z <= h; z++) {
                 int y = (int) (Math.sin(x / 5.0f) * Math.cos(z / 5.0f) * 5.0f);
                 Cube c = new Cube();
-                c.position.set(x * 0.25f, y * 0.25f, z * 0.25f);
+                c.position.set(x * scale, y * scale, z * scale);
 
                 if (y < 0) {
                     c.color.y = c.color.x;
                 } else {
                     c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
+                    //c.color.y = 0.8f;
                 }
-                c.scale.set(0.25f, 0.25f, 0.25f);
+                c.scale.set(scale, scale, scale);
                 cubes.add(c);
             }
         }
@@ -620,10 +644,6 @@ public class CubeMain {
             throw new IllegalArgumentException("delta " + delta + " is 0 or is smaller than 0");
         }
 
-        //boolean keyUp = Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W);
-        //boolean keyDown = Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S);
-        //boolean keyLeft = Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A);
-        //boolean keyRight = Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D);
         boolean keySpeed = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL);
         boolean keyToggleUI = Keyboard.isKeyDown(Keyboard.KEY_TAB) && !Keyboard.isRepeatEvent();
         boolean keyUp = Keyboard.isKeyDown(Keyboard.KEY_W);
@@ -637,8 +657,12 @@ public class CubeMain {
         boolean keyRotLeft = Keyboard.isKeyDown(Keyboard.KEY_LEFT);
         boolean keyRotRight = Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
 
-        if (keyToggleUI) {
-            showUI = !showUI;
+        if (keyToggleUI && (ticks-60 > lastUIToggleTick)) {
+            if ((showUI && nifty.getCurrentScreen().getScreenId().equals("menu"))
+                    || (!showUI && nifty.getCurrentScreen().getScreenId().equals("empty"))) {
+                showUI = !showUI;
+                lastUIToggleTick = ticks;
+            }
         }
         if (keySpeed) {
             delta = delta * 4;
