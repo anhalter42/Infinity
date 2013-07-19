@@ -64,12 +64,12 @@ public class MetaObjectHandler {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (NoSuchFieldException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        // we ignore this -> e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
                 }
                 IMetaObjectFieldValueProvider lProvider = fieldValueProviders.get(lDestClass);
                 if (lProvider != null) {
-                    lFieldValue = lProvider.provide(lOriginalFieldValue, lFieldValue);
+                    lFieldValue = lProvider.provideFrom(lOriginalFieldValue, lFieldValue);
                 } else {
                     //TODO
                     lFieldValue = lOriginalFieldValue;
@@ -90,7 +90,7 @@ public class MetaObjectHandler {
                     } catch (NoSuchFieldException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        // we ignore this -> e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
                 }
                 if (aResult instanceof IMetaObject) {
@@ -103,24 +103,39 @@ public class MetaObjectHandler {
     public static class MetaObjectFieldValueProviderString implements IMetaObjectFieldValueProvider {
 
         @Override
-        public Object provide(Object aSourceValue, Object aFieldValue) {
+        public Object provideFrom(Object aSourceValue, Object aFieldValue) {
             return aSourceValue != null ? aSourceValue.toString() : null;
+        }
+
+        @Override
+        public String provideTo(Object aSourceValue) {
+            return aSourceValue.toString();
         }
     }
 
     public static class MetaObjectFieldValueProviderInteger implements IMetaObjectFieldValueProvider {
 
         @Override
-        public Object provide(Object aSourceValue, Object aFieldValue) {
+        public Object provideFrom(Object aSourceValue, Object aFieldValue) {
             return aSourceValue != null ? Integer.valueOf(aSourceValue.toString()) : null;
+        }
+
+        @Override
+        public String provideTo(Object aSourceValue) {
+            return aSourceValue.toString();
         }
     }
 
     public static class MetaObjectFieldValueProviderFloat implements IMetaObjectFieldValueProvider {
 
         @Override
-        public Object provide(Object aSourceValue, Object aFieldValue) {
+        public Object provideFrom(Object aSourceValue, Object aFieldValue) {
             return aSourceValue != null ? Float.valueOf(aSourceValue.toString()) : null;
+        }
+
+        @Override
+        public String provideTo(Object aSourceValue) {
+            return aSourceValue.toString();
         }
     }
 }

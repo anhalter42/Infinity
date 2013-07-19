@@ -1,0 +1,6 @@
+varying vec3 n;
+void main() {
+    gl_FrontColor = gl_Color;
+    n = gl_Normal;
+    gl_Position = ftransform(); //gl_ModelViewProjectionMatrix * gl_Vertex;
+}

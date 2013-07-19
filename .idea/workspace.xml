@@ -2,37 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83d9d02c-a3f9-4128-b250-1b26ed938e51" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/snakeyaml-1.11.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObject.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectDeserializer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/infinity/prototyp/yaml/YamlMain.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/snakeyaml.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java" afterPath="$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Infinity.iml" afterPath="$PROJECT_DIR$/Infinity.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObject.java" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infinity/prototyp/utils/Util.java" afterPath="$PROJECT_DIR$/src/infinity/prototyp/utils/Util.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infinity/prototyp/yaml/YamlMain.java" afterPath="$PROJECT_DIR$/src/infinity/prototyp/yaml/YamlMain.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/ui/menu.xml" afterPath="$PROJECT_DIR$/resources/ui/menu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/nifty.xml" afterPath="$PROJECT_DIR$/.idea/libraries/nifty.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/simple.fglsl" afterPath="$PROJECT_DIR$/resources/shaders/simple.fglsl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/simple2.fglsl" afterPath="$PROJECT_DIR$/resources/shaders/simple2.fglsl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/simple2.vglsl" afterPath="$PROJECT_DIR$/resources/shaders/simple2.vglsl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/simplet.fglsl" afterPath="$PROJECT_DIR$/resources/shaders/simplet.fglsl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/simplet.vglsl" afterPath="$PROJECT_DIR$/resources/shaders/simplet.vglsl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Infinity.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Main.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373212807920" ignored="false" />
-    <file path="/fragment.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373707643652" ignored="false" />
+    <file path="/fragment.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373894741875" ignored="false" />
     <file path="$PROJECT_DIR$/../CubeTest/resources/start.xml" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373221704367" ignored="false" />
     <file path="/start.xml" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373221704367" ignored="false" />
     <file path="$PROJECT_DIR$/../CubeTest/src/org/anhalter42/cubetest/CubeTest.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373221523285" ignored="false" />
-    <file path="/CubeMain.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373838512684" ignored="false" />
-    <file path="/Dummy.txt" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373839012858" ignored="false" />
-    <file path="/menu.xml" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373837909896" ignored="false" />
+    <file path="/CubeMain.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374263884154" ignored="false" />
+    <file path="/Dummy.txt" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374249985276" ignored="false" />
+    <file path="/menu.xml" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374084315761" ignored="false" />
     <file path="/MetaObject.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373550568999" ignored="false" />
     <file path="/a.dummy" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373533909320" ignored="false" />
     <file path="/IMetaObject.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373548873512" ignored="false" />
     <file path="/IMetaObjectDeserializer.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373549074044" ignored="false" />
-    <file path="/MetaObjectHandler.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373720273224" ignored="false" />
-    <file path="/IMetaObjectFieldValueProvider.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373619868513" ignored="false" />
-    <file path="/YamlMain.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373720632166" ignored="false" />
+    <file path="/MetaObjectHandler.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373892844295" ignored="false" />
+    <file path="/IMetaObjectFieldValueProvider.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373892622346" ignored="false" />
+    <file path="/YamlMain.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373892682085" ignored="false" />
+    <file path="/Util.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373892534714" ignored="false" />
+    <file path="/simple.fglsl" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374086645120" ignored="false" />
+    <file path="/simple2.fglsl" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374143682244" ignored="false" />
+    <file path="/simple2.vglsl" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374263493316" ignored="false" />
+    <file path="/simplet.fglsl" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374261013332" ignored="false" />
+    <file path="/simplet.vglsl" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374261203670" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,64 +100,68 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MetaObject.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObject.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="0" selection-start="686" selection-end="686" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MetaObjectHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="24" selection-start="610" selection-end="610" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="YamlMain.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/yaml/YamlMain.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="139" selection-start="2215" selection-end="2215" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IMetaObjectFieldValueProvider.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="46" selection-start="203" selection-end="232" vertical-scroll-proportion="0.1732991">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="21" selection-end="116" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="menu.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/ui/menu.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="62" selection-start="1845" selection-end="1845" vertical-scroll-proportion="0.0">
+            <state line="28" column="71" selection-start="1488" selection-end="1488" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CubeMain.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="CubeMain.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="223" column="14" selection-start="7994" selection-end="7994" vertical-scroll-proportion="0.0">
+            <state line="192" column="14" selection-start="7352" selection-end="7352" vertical-scroll-proportion="0.8463385">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2285#2291#0" expanded="true" />
+                <element signature="e#2347#2362#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simple.fglsl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shaders/simple.fglsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="23" column="37" selection-start="0" selection-end="1201" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simplet.vglsl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shaders/simplet.vglsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="0" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simplet.fglsl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shaders/simplet.fglsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="0" selection-start="456" selection-end="456" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simple2.fglsl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shaders/simple2.fglsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="5" selection-start="645" selection-end="645" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="simple2.vglsl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shaders/simple2.vglsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="47" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -160,16 +170,16 @@
       <file leaf-file-name="simple.vglsl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/shaders/simple.vglsl">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
+            <state line="2" column="0" selection-start="0" selection-end="235" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="simple.fglsl" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/simple.fglsl">
+      <file leaf-file-name="Screen.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/nifty-1.3.2.jar!/de/lessvoid/nifty/screen/Screen.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="1" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0">
+            <state line="80" column="22" selection-start="4256" selection-end="4293" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -193,16 +203,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/infinity/prototyp/cubes/Main.java" />
-        <option value="$PROJECT_DIR$/resources/shaders/simple.vglsl" />
-        <option value="$PROJECT_DIR$/resources/shaders/simple.fglsl" />
         <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObject.java" />
         <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectDeserializer.java" />
-        <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java" />
         <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObject.java" />
-        <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java" />
+        <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/Util.java" />
+        <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java" />
         <option value="$PROJECT_DIR$/src/infinity/prototyp/yaml/YamlMain.java" />
+        <option value="$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java" />
+        <option value="$PROJECT_DIR$/resources/shaders/simple.vglsl" />
         <option value="$PROJECT_DIR$/resources/ui/menu.xml" />
+        <option value="$PROJECT_DIR$/resources/shaders/simple.fglsl" />
+        <option value="$PROJECT_DIR$/resources/shaders/simple2.fgls" />
+        <option value="$PROJECT_DIR$/resources/shaders/simple2.fglsl" />
+        <option value="$PROJECT_DIR$/resources/shaders/simplet.vglsl" />
+        <option value="$PROJECT_DIR$/resources/shaders/simplet.fglsl" />
+        <option value="$PROJECT_DIR$/resources/shaders/simple2.vglsl" />
         <option value="$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java" />
       </list>
     </option>
@@ -372,6 +387,10 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shaders" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -383,14 +402,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Infinity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Infinity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -401,15 +438,23 @@
     <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/nifty-style-black-1.3.3.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/PNGDecoder.jar!/" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="dynamic.classpath" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/libs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/images" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.CubeMain">
     <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true">
@@ -442,7 +487,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="Infinity" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -525,14 +576,18 @@
       <created>1373224136149</created>
       <updated>1373224136149</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="metaobject initial">
+      <created>1373839090454</created>
+      <updated>1373839090454</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="22" width="1886" height="1319" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294412" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -540,16 +595,16 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3269391" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32443702" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25108695" sideWeight="0.6730609" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2819016" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25108695" sideWeight="0.7180984" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2819016" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294412" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -621,111 +676,117 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/ui/menu.xml">
+    <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="430" selection-end="430" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/simple.vglsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/simple.fglsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="1" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/simple.vglsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/simple.fglsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="1" selection-start="1170" selection-end="1170" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/snakeyaml-1.11.jar!/org/yaml/snakeyaml/Yaml.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="0" selection-start="7153" selection-end="7153" vertical-scroll-proportion="0.918239" />
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/snakeyaml-1.11.jar!/org/yaml/snakeyaml/constructor/Constructor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="3805" selection-end="3805" vertical-scroll-proportion="0.918239" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="21" selection-end="116" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="686" selection-end="686" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectDeserializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="58" selection-start="287" selection-end="287" vertical-scroll-proportion="0.13066202">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="24" selection-start="610" selection-end="610" vertical-scroll-proportion="0.0">
+        <state line="10" column="29" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/yaml/YamlMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="139" selection-start="2215" selection-end="2215" vertical-scroll-proportion="0.0">
+        <state line="70" column="75" selection-start="2148" selection-end="2148" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/MetaObjectHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="44" selection-start="4372" selection-end="4372" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/nifty-1.3.2.jar!/de/lessvoid/nifty/controls/Controller.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="17" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/nifty-default-controls-1.3.3.jar!/de/lessvoid/nifty/controls/Label.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="17" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/src.zip!/java/nio/Buffer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="297" column="0" selection-start="9196" selection-end="9196" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/ui/menu.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="62" selection-start="1845" selection-end="1845" vertical-scroll-proportion="0.0">
+        <state line="28" column="71" selection-start="1488" selection-end="1488" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/nifty-1.3.2.jar!/de/lessvoid/nifty/screen/Screen.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="22" selection-start="4256" selection-end="4293" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/simple.fglsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="37" selection-start="0" selection-end="1201" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/images/grass.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/simple.vglsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="0" selection-end="235" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/simplet.vglsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/simple2.fglsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="5" selection-start="645" selection-end="645" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/simple2.vglsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="47" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/simplet.fglsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="456" selection-end="456" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="223" column="14" selection-start="7994" selection-end="7994" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="18" selection-start="235" selection-end="235" vertical-scroll-proportion="0.1984127">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/utils/IMetaObjectFieldValueProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="46" selection-start="203" selection-end="232" vertical-scroll-proportion="0.1732991">
-          <folding />
+        <state line="192" column="14" selection-start="7352" selection-end="7352" vertical-scroll-proportion="0.8463385">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2285#2291#0" expanded="true" />
+            <element signature="e#2347#2362#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -793,7 +854,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>nifty</last-edited>
+          <last-edited>PNGDecoder</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -3,6 +3,7 @@ package infinity.prototyp.yaml;
 import infinity.prototyp.utils.IMetaObjectFieldValueProvider;
 import infinity.prototyp.utils.MetaObject;
 import infinity.prototyp.utils.MetaObjectHandler;
+import infinity.prototyp.utils.Util;
 import org.yaml.snakeyaml.Yaml;
 
 import java.lang.reflect.Field;
@@ -44,14 +45,14 @@ public class YamlMain {
         MetaObjectHandler lHandler = new MetaObjectHandler();
         lHandler.registerFieldValueProvider(Point.class,new MetaObjectFieldValueProviderPoint());
         lHandler.deserializeTo(lobj, lmyobj);
-        System.out.println(dump(lmyobj));
+        System.out.println(Util.dumpObject(lmyobj));
         System.out.println("Hello World!");
     }
 
     public static class MetaObjectFieldValueProviderPoint implements IMetaObjectFieldValueProvider {
 
         @Override
-        public Object provide(Object aSourceValue, Object aFieldValue) {
+        public Object provideFrom(Object aSourceValue, Object aFieldValue) {
             String lStr = aSourceValue.toString();
             String[] lParts = lStr.split("\\,");
             Point lP;
@@ -64,38 +65,11 @@ public class YamlMain {
             lP.y = Integer.valueOf(lParts[1]);
             return lP;
         }
-    }
 
-    public static String dump(Object object) {
-        Field[] fields = object.getClass().getDeclaredFields();
-        StringBuilder sb = new StringBuilder();
-        sb.append(object.getClass().getSimpleName()).append('{');
-
-        boolean firstRound = true;
-
-        for (Field field : fields) {
-            if (!firstRound) {
-                sb.append(", ");
-            }
-            firstRound = false;
-            field.setAccessible(true);
-            try {
-                final Object fieldObj = field.get(object);
-                final String value;
-                if (null == fieldObj) {
-                    value = "null";
-                } else {
-                    value = fieldObj.toString();
-                }
-                sb.append(field.getName()).append('=').append('\'')
-                        .append(value).append('\'');
-            } catch (IllegalAccessException ignore) {
-                //this should never happen
-            }
-
+        @Override
+        public String provideTo(Object aSourceValue) {
+            return ((Point)aSourceValue).x + "," + ((Point)aSourceValue).y;
         }
-
-        sb.append('}');
-        return sb.toString();
     }
+
 }

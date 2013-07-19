@@ -1,7 +1,37 @@
-varying vec3 vN;
-varying vec3 v;
+varying vec3 n;
 
 void main (void)
 {
-   gl_FragColor = gl_Color;
+    vec4 col = gl_Color;
+    if (n.x == 1.0) {
+        col.r *= 0.95;
+        col.g *= 0.95;
+        col.b *= 0.95;
+    }
+    if (n.y == 1.0) {
+        col.r *= 0.90;
+        col.g *= 0.90;
+        col.b *= 0.90;
+    }
+    if (n.z == 1.0) {
+        col.r *= 0.85;
+        col.g *= 0.85;
+        col.b *= 0.85;
+    }
+    if (n.x == -1.0) {
+        col.r *= 0.50;
+        col.g *= 0.50;
+        col.b *= 0.50;
+    }
+    if (n.y == -1.0) {
+        col.r *= 0.45;
+        col.g *= 0.45;
+        col.b *= 0.45;
+    }
+    if (n.z == -1.0) {
+        col.r *= 0.40;
+        col.g *= 0.40;
+        col.b *= 0.40;
+    }
+    gl_FragColor = col;
 }

@@ -6,6 +6,9 @@
     <style id="label">
         <attributes font="resources/fonts/arial-24-regular.fnt"/>
     </style>
+    <style id="smalllabel">
+        <attributes font="aurulent-sans-16.fnt"/>
+    </style>
     <screen id="welcome">
         <layer childLayout="center">
             <panel childLayout="center" width="50%" height="50%">
@@ -21,7 +24,11 @@
         </layer>
     </screen>
     <screen id="empty">
-        <layer childLayout="center">
+        <layer id="lTopDebug" childLayout="vertical">
+            <panel childLayout="horizontal">
+                <text id="tFPS" style="smalllabel" text="0" width="100%">
+                </text>
+            </panel>
         </layer>
     </screen>
     <screen id="keys">
@@ -31,24 +38,28 @@
                     <onStartScreen name="move" mode="in" direction="top" length="300" startDelay="100" inherit="true"/>
                     <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
                 </effect>
-                <text id="t1" style="label" height="20%" width="90%"
+                <text id="t1" style="label" height="10%" width="90%"
                       backgroundColor="#4648" text="Navigation WASD keys"
                       textHAlign="center" textVAlign="center">
                 </text>
-                <text id="t1.1" style="label" height="20%" width="90%"
+                <text id="t1.1" style="label" height="10%" width="90%"
                       backgroundColor="#4648" text="Navigation SPACE/LEFT SHIFT keys"
                       textHAlign="center" textVAlign="center">
                 </text>
-                <text id="t2" style="label" height="20%" width="90%"
+                <text id="t2" style="label" height="10%" width="90%"
                       backgroundColor="#4648" text="Rotation UP/DOWN/LEFT/RIGHT keys"
                       textHAlign="center" textVAlign="center">
                 </text>
-                <text id="t3" style="label" height="20%" width="90%"
+                <text id="t3" style="label" height="10%" width="90%"
                       backgroundColor="#4648" text="Speedup key is LEFT CTRL"
                       textHAlign="center" textVAlign="center">
                 </text>
-                <text id="t4" style="label" height="20%" width="90%"
+                <text id="t4" style="label" height="10%" width="90%"
                       backgroundColor="#4648" text="Toggle UI key is TAB"
+                      textHAlign="center" textVAlign="center">
+                </text>
+                <text id="t5" style="label" height="10%" width="90%"
+                      backgroundColor="#4648" text="Toggle polygonmode key is P"
                       textHAlign="center" textVAlign="center">
                 </text>
             </panel>

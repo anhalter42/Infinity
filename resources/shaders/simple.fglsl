@@ -3,6 +3,8 @@ varying vec3 v;
 #define MAX_LIGHTS 1
 void main (void)
 {
+   //gl_FragColor = gl_Color;
+
    vec3 N = normalize(vN);
    //vec4 finalColor = vec4(0.0, 0.0, 0.0, 0.0);
    vec4 finalColor = vec4(gl_Color.r * 0.25, gl_Color.g * 0.25, gl_Color.b * 0.25, gl_Color.a);
