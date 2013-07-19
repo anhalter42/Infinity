@@ -1,0 +1,7 @@
+varying vec3 vN;
+varying vec3 v;
+
+void main (void)
+{
+   gl_FragColor = gl_Color;
+}
