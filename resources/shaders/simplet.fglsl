@@ -13,6 +13,7 @@ void main()
     af = gl_FrontMaterial.diffuse.a;
     texel = texture2D(tex,gl_TexCoord[0].st);
 
+    //ct = (texel.rgb * 0.8) + (gl_Color.rgb * 0.2);
     ct = texel.rgb;
     at = texel.a;
     gl_FragColor = vec4(ct * cf, at * af);

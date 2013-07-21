@@ -59,9 +59,10 @@ public class CubeMain {
     private float rotY;
     private float rotZ;
     private float scale = 0.25f;
-    private int[] textIds = new int[2];
+    private int[] textIds = new int[4];
     private int tindex = 0;
-    private int[] programs = new int[3];
+    private int[] programs = new int[5];
+    private String[] pnames = new String[programs.length];
     private int pindex = 0;
     private int ticks = 0;
     private ArrayList<Cube> cubes = new ArrayList<Cube>();
@@ -70,6 +71,7 @@ public class CubeMain {
     private boolean showUI = true;
     private Nifty nifty;
     private boolean polygonmode = false;
+    private float lightdelta = 0.2f;
 
     public static void main(String[] args) {
         System.out.println("starting CubeMain prototyp...");
@@ -126,11 +128,17 @@ public class CubeMain {
         tindex = 0;
         textIds[0] = loadPNGTexture("grass.png", GL13.GL_TEXTURE0);
         textIds[1] = loadPNGTexture("grass_128.png", GL13.GL_TEXTURE0);
+        textIds[2] = loadPNGTexture("moss_128.png", GL13.GL_TEXTURE0);
+        textIds[3] = loadPNGTexture("ground_stone_128.png", GL13.GL_TEXTURE0);
 
         pindex = 0;
-        programs[0] = loadProgram("simple");
-        programs[1] = loadProgram("simple2");
-        programs[2] = loadProgram("simplet");
+        pnames[0] = "simple";
+        pnames[1] = "simple2";
+        pnames[2] = "simplet";
+        pnames[3] = "simplet2";
+        pnames[4] = "simplet3";
+        for(String lName : pnames) { programs[pindex] = loadProgram(pnames[pindex]); pindex++; }
+        pindex = 0;
 
         initLight();
 
@@ -216,7 +224,7 @@ public class CubeMain {
 
             if (nifty.getCurrentScreen().getScreenId().equals("empty")) {
                 Element element = nifty.getCurrentScreen().findElementByName("tFPS");
-                element.getRenderer(TextRenderer.class).setText("FPS: " + timer.getFPS()+" " + (polygonmode?"P ":" ") + (optimize?"O ":" ") + (optimize2?"2":"") + " vcount = " + vcount);
+                element.getRenderer(TextRenderer.class).setText("FPS: " + timer.getFPS()+" " + (polygonmode?"P ":" ") + (optimize?"O ":" ") + (optimize2?"2":"") + " vcount = " + vcount + " prog:" + pnames[pindex] + " texture:" + textIds[tindex]);
             }
             if (ticks > 400) {
                 if (showUI && !nifty.getCurrentScreen().getScreenId().equals("menu")) {
@@ -259,23 +267,38 @@ public class CubeMain {
         return x+y*1000+z*1000000;
     }
 
+    private float wheight = 5.0f;
+
     private void initCubes() {
         int w = 35;
         int h = 35;
         for (int x = -w; x <= w; x++) {
             for (int z = -h; z <= h; z++) {
-                int yy = (int) (Math.sin(x / 5.0f) * Math.cos(z / 5.0f) * 5.0f);
+                int yy = (int) (Math.sin(x / wheight) * Math.cos(z / wheight) * wheight);
                 for(int y=yy-3;y<=yy;y++) {
                     Cube c = new Cube();
                     c.position.set(x * scale, y * scale, z * scale);
 
                     if (y < 0) {
-                        c.color.y = c.color.x;
-                    } else {
-                        if (x < 0 && z < 00) {
-                            c.color.y = 0.8f;
+                        if (y <= -(wheight-1)) {
+                            c.color.x = 0.3f;
+                            c.color.y = 0.3f;
+                            c.color.z = 1.0f;
                         } else {
-                            c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
+                            c.color.x = ((wheight-y)/wheight);
+                            c.color.y = c.color.x * 0.8f;
+                            c.color.z = c.color.y * 0.5f;
+                        }
+                    } else {
+                        if (x < 0 && z < 0) {
+                            c.color.y = 0.8f;
+                        } else if (x > 0 && z < 0) {
+                            //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
+                            c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
+                            c.color.x = c.color.y;
+                        } else {
+                            c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
+                            //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
                         }
                     }
                     c.scale.set(scale, scale, scale);
@@ -300,7 +323,7 @@ public class CubeMain {
     private float[] redDiffuse = {1.0f, 0.0f, 0.0f, 1.0f};
     private float[] greenDiffuse = {0.0f, 1.0f, 0.0f, 1.0f};
     private float[] blueDiffuse = {0.0f, 0.0f, 1.0f, 1.0f};
-    private float[] posTopLeft = {-2.0f, 2.0f, 0.0f, 1.0f};
+    private float[] posTopLeft = {-20.0f, 50.0f, 0.0f, 1.0f};
     private float[] posTopRight = {2.0f, 2.0f, 0.0f, 1.0f};
     private float[] posBottomFront = {0.0f, -2.0f, 1.0f, 1.0f};
 
@@ -341,6 +364,12 @@ public class CubeMain {
 
     private void renderGLScene() {
         vcount = 0;
+        posTopLeft[0] += lightdelta;
+        if (posTopLeft[0] > 150.f) {
+            posTopLeft[0] = -150.0f;
+        }
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, arrayToBuffer(posTopLeft));
+
         GL11.glMatrixMode(GL_MODELVIEW);
         /*
         if (1 == 2) {
@@ -613,6 +642,8 @@ public class CubeMain {
     boolean keyRotDown = false;
     boolean keyRotLeft = false;
     boolean keyRotRight = false;
+    boolean keyRolLeft = false;
+    boolean keyRolRight = false;
 
     public void processKeyboard(float delta) {
         if (delta <= 0) {
@@ -636,9 +667,13 @@ public class CubeMain {
                 case Keyboard.KEY_DOWN: keyRotDown = lDown; break;
                 case Keyboard.KEY_LEFT: keyRotLeft = lDown; break;
                 case Keyboard.KEY_RIGHT: keyRotRight = lDown; break;
+                case Keyboard.KEY_Z: keyRolLeft = lDown; break;
+                case Keyboard.KEY_C: keyRolRight = lDown; break;
                 case Keyboard.KEY_I: if (lDown) pindex = (pindex+1) % programs.length; break;
                 case Keyboard.KEY_T: if (lDown) tindex = (tindex+1) % textIds.length; break;
                 case Keyboard.KEY_P: if (lDown) polygonmode = !polygonmode; break;
+                case Keyboard.KEY_R: if (lDown) { posx = posy = posz = yaw = pitch = roll = posTopLeft[0] = 0.0f; } break;
+                case Keyboard.KEY_L: if (lDown) if (lightdelta != 0.0) lightdelta = 0.0f; else lightdelta = 0.2f; break;
                 case Keyboard.KEY_O:
                     if (lDown) {
                         if (optimize && !optimize2) {
@@ -680,6 +715,12 @@ public class CubeMain {
         }
         if (keyRight && !keyLeft && !keyUp && !keyDown) {
             moveFromLook(delta * 0.003f, 0, 0);
+        }
+        if (keyRolRight && !keyRolLeft) {
+            roll += delta * 0.03f;
+        }
+        if (!keyRolRight && keyRolLeft) {
+            roll -= delta * 0.03f;
         }
         if (keyRotRight && !keyRotLeft) {
             yaw += delta * 0.03f;
@@ -926,13 +967,13 @@ public class CubeMain {
 // Back Side
                 if (b) {
                     GL11.glNormal3f(0.0f, 0.0f, -1.0f);
-                    GL11.glTexCoord2f(0.0f, 0.0f);
+                    GL11.glTexCoord2f(1.0f, 0.0f);
                     GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glTexCoord2f(0.0f, 0.0f);
                     GL11.glVertex3f(0.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(1.0f, 1.0f);
+                    GL11.glTexCoord2f(0.0f, 1.0f);
                     GL11.glVertex3f(0.0f, 1.0f, 0.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
+                    GL11.glTexCoord2f(1.0f, 1.0f);
                     GL11.glVertex3f(1.0f, 1.0f, 0.0f);
                     vcount += 4;
                 }

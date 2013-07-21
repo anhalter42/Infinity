@@ -1,0 +1,18 @@
+varying vec3 lightDir;
+varying vec3 normal;
+varying vec3 vN;
+varying vec3 v;
+
+void main()
+{
+    v = vec3(gl_ModelViewMatrix * gl_Vertex);
+    vN = normalize(gl_NormalMatrix * gl_Normal);
+
+    gl_FrontColor = gl_Color;
+    normal = vN; //normalize(gl_NormalMatrix * gl_Normal);
+
+    lightDir = normalize(vec3(gl_LightSource[0].position));
+    gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+
+    gl_Position = ftransform();
+}

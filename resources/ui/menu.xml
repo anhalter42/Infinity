@@ -62,6 +62,18 @@
                       backgroundColor="#4648" text="Toggle polygonmode key is P"
                       textHAlign="center" textVAlign="center">
                 </text>
+                <text id="t6" style="label" height="10%" width="90%"
+                      backgroundColor="#4648" text="Turn optimizationmodes key is O"
+                      textHAlign="center" textVAlign="center">
+                </text>
+                <text id="t6" style="label" height="10%" width="90%"
+                      backgroundColor="#4648" text="Turn shaders key is I"
+                      textHAlign="center" textVAlign="center">
+                </text>
+                <text id="t6" style="label" height="10%" width="90%"
+                      backgroundColor="#4648" text="Turn textures key is T"
+                      textHAlign="center" textVAlign="center">
+                </text>
             </panel>
         </layer>
     </screen>
