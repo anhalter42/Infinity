@@ -22,11 +22,13 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -46,7 +48,7 @@ public class CubeMain {
     private float rotY;
     private float rotZ;
     private float scale = 0.25f;
-    private int[] textIds = new int[4];
+    private int[] textIds = new int[5];
     private int tindex = 0;
     private int[] programs = new int[5];
     private String[] pnames = new String[programs.length];
@@ -126,6 +128,7 @@ public class CubeMain {
         textIds[1] = loadPNGTexture("grass_128.png", GL13.GL_TEXTURE0);
         textIds[2] = loadPNGTexture("moss_128.png", GL13.GL_TEXTURE0);
         textIds[3] = loadPNGTexture("ground_stone_128.png", GL13.GL_TEXTURE0);
+        textIds[4] = loadPNGTexture("dirt_128.png", GL13.GL_TEXTURE0);
 
         pindex = 0;
         pnames[0] = "simple";
@@ -221,7 +224,7 @@ public class CubeMain {
 
             if (nifty.getCurrentScreen().getScreenId().equals("empty")) {
                 Element element = nifty.getCurrentScreen().findElementByName("tFPS");
-                element.getRenderer(TextRenderer.class).setText("FPS: " + timer.getFPS()+" " + (polygonmode?"P ":" ") + (optimize?"O"+optI+" ":" ") + " vcount = " + vcount + " prog:" + pnames[pindex] + " texture:" + textIds[tindex]);
+                element.getRenderer(TextRenderer.class).setText("RunningTime:"+ timer.getRuntime()+" FPS: " + timer.getFPS()+" " + (polygonmode?"P ":" ") + (optimize?"O"+optI+" ":" ") + " vcount = " + vcount + " prog:" + pnames[pindex] + " texture:" + textIds[tindex]);
             }
             if (ticks > 400) {
                 if (showUI && !nifty.getCurrentScreen().getScreenId().equals("menu")) {
@@ -1232,12 +1235,14 @@ public class CubeMain {
 
     public static class LWJGLTimer {
 
+        private long firstTime; // nanoseconds
         private long lastTime; // nanoseconds
         private double elapsedTime;
         private boolean firstRun = true;
         private int FPS = 0;
         private int currentFPS = 0;
         private double elapsedTimeS = 0.0;
+        private long durationMS = 0;
 
         /**
          * Creates a timer.
@@ -1249,6 +1254,7 @@ public class CubeMain {
          * Initializes the timer. Call this just before entering the game loop.
          */
         public void initialize() {
+            firstTime = System.nanoTime();
             lastTime = System.nanoTime();
             firstRun = false;
         }
@@ -1284,12 +1290,19 @@ public class CubeMain {
                 lastTime = now;
                 elapsedTime = lElapsedTime / (double) 1000000;
                 elapsedTimeS += elapsedTime;
+                // running time
+                double ldurationMS = (lastTime-firstTime)/1e9;
+                durationMS = (long) ldurationMS;
                 return elapsedTime;
             }
         }
 
         public int getFPS() {
             return FPS;
+        }
+
+        public String getRuntime() {
+            return new SimpleDateFormat("HH:mm:ss").format(new Date(durationMS));
         }
     }
 }
