@@ -2,11 +2,6 @@ package infinity.prototyp.cubes;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyMouse;
-import de.lessvoid.nifty.controls.AbstractController;
-import de.lessvoid.nifty.controls.Controller;
-import de.lessvoid.nifty.controls.Label;
-import de.lessvoid.nifty.controls.TextField;
-import de.lessvoid.nifty.controls.label.LabelControl;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.nulldevice.NullSoundDevice;
@@ -33,17 +28,9 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.toRadians;
+import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glTranslatef;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
-import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
-import static org.lwjgl.opengl.GL20.glUseProgram;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,6 +59,15 @@ public class CubeMain {
     private Nifty nifty;
     private boolean polygonmode = false;
     private float lightdelta = 0.2f;
+    private int cubeList = 0;
+    private int cubeListL = 0;
+    private int cubeListR = 0;
+    private int cubeListT = 0;
+    private int cubeListD = 0;
+    private int cubeListF = 0;
+    private int cubeListB = 0;
+    private int optI = 0;
+    private int cubeListAll = 0;
 
     public static void main(String[] args) {
         System.out.println("starting CubeMain prototyp...");
@@ -140,6 +136,7 @@ public class CubeMain {
         for(String lName : pnames) { programs[pindex] = loadProgram(pnames[pindex]); pindex++; }
         pindex = 0;
 
+        initCubeList();
         initLight();
 
         NiftyMouse niftyMouse = nifty.getNiftyMouse();
@@ -224,7 +221,7 @@ public class CubeMain {
 
             if (nifty.getCurrentScreen().getScreenId().equals("empty")) {
                 Element element = nifty.getCurrentScreen().findElementByName("tFPS");
-                element.getRenderer(TextRenderer.class).setText("FPS: " + timer.getFPS()+" " + (polygonmode?"P ":" ") + (optimize?"O ":" ") + (optimize2?"2":"") + " vcount = " + vcount + " prog:" + pnames[pindex] + " texture:" + textIds[tindex]);
+                element.getRenderer(TextRenderer.class).setText("FPS: " + timer.getFPS()+" " + (polygonmode?"P ":" ") + (optimize?"O"+optI+" ":" ") + " vcount = " + vcount + " prog:" + pnames[pindex] + " texture:" + textIds[tindex]);
             }
             if (ticks > 400) {
                 if (showUI && !nifty.getCurrentScreen().getScreenId().equals("menu")) {
@@ -263,6 +260,160 @@ public class CubeMain {
         Display.destroy();
     }
 
+    private void initCubeList() {
+        cubeList = glGenLists(8);
+        cubeListL = cubeList + 1;
+        cubeListR = cubeList + 2;
+        cubeListT = cubeList + 3;
+        cubeListD = cubeList + 4;
+        cubeListF = cubeList + 5;
+        cubeListB = cubeList + 6;
+        cubeListAll = cubeList + 7;
+        glNewList(cubeList, GL_COMPILE);
+        GL11.glBegin(GL11.GL_QUADS);
+// Front Side
+        GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+// Back Side
+        GL11.glNormal3f(0.0f, 0.0f, -1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+// Left Side
+        GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+// Right Side
+        GL11.glNormal3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+// Top Side
+        GL11.glNormal3f(0.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+// Bottom (Down) Side
+        GL11.glNormal3f(0.0f, -1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+        GL11.glEnd();
+        GL11.glEndList();
+// Front Side
+        glNewList(cubeListF, GL_COMPILE);
+        GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+        GL11.glEndList();
+// Back Side
+        glNewList(cubeListB, GL_COMPILE);
+        GL11.glNormal3f(0.0f, 0.0f, -1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+        GL11.glEndList();
+// Left Side
+        glNewList(cubeListL, GL_COMPILE);
+        GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+        GL11.glEndList();
+// Right Side
+        glNewList(cubeListR, GL_COMPILE);
+        GL11.glNormal3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        GL11.glEndList();
+// Top Side
+        glNewList(cubeListT, GL_COMPILE);
+        GL11.glNormal3f(0.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+        GL11.glEndList();
+// Bottom (Down) Side
+        glNewList(cubeListD, GL_COMPILE);
+        GL11.glNormal3f(0.0f, -1.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+        GL11.glEndList();
+        optimize = true;
+        glNewList(cubeListAll, GL_COMPILE);
+        for(Cube lCube : cubes) {
+            lCube.render();
+        }
+        GL11.glEndList();
+        optimize = false;
+    }
+
     private Integer getCubeKey(int x, int y, int z) {
         return x+y*1000+z*1000000;
     }
@@ -272,10 +423,11 @@ public class CubeMain {
     private void initCubes() {
         int w = 35;
         int h = 35;
+        int d = 20;
         for (int x = -w; x <= w; x++) {
             for (int z = -h; z <= h; z++) {
                 int yy = (int) (Math.sin(x / wheight) * Math.cos(z / wheight) * wheight);
-                for(int y=yy-3;y<=yy;y++) {
+                for(int y=yy-d;y<=yy;y++) {
                     Cube c = new Cube();
                     c.position.set(x * scale, y * scale, z * scale);
 
@@ -404,8 +556,12 @@ public class CubeMain {
         renderCubeR(1.0f, 3.0f, -5.0f, 1.0f, 0.5f, 1.0f);
         renderCubeR(-0.5f, 4.0f, -5.0f, 0.5f, 1.0f, 0.5f);
         renderCubeR(-1.0f, 5.0f, -5.0f, 0.5f, 1.0f, 1.0f);
-        for (Cube c : cubes) {
-            c.render();
+        if (optI == 4) {
+            glCallList(cubeListAll);
+        } else {
+            for (Cube c : cubes) {
+                c.render();
+            }
         }
         if (rotX < 360) {
             rotX += 0.2f;
@@ -455,6 +611,8 @@ public class CubeMain {
     private void renderCubeI(float r, float g, float b) {
 // Der Würfel aller Würfel ^__^'
         GL11.glColor3f(r, g, b);
+        GL11.glCallList(cubeList);
+        /*
         GL11.glBegin(GL11.GL_QUADS);
 // Front Side
         GL11.glNormal3f(0.0f, 0.0f, 1.0f);
@@ -493,6 +651,7 @@ public class CubeMain {
         GL11.glVertex3f(-0.5f, -0.5f, 0.5f);
         GL11.glVertex3f(-0.5f, -0.5f, -0.5f);
         GL11.glEnd();
+        */
     }
 
     private void exitOnGLError(String errorMessage) {
@@ -676,15 +835,12 @@ public class CubeMain {
                 case Keyboard.KEY_L: if (lDown) if (lightdelta != 0.0) lightdelta = 0.0f; else lightdelta = 0.2f; break;
                 case Keyboard.KEY_O:
                     if (lDown) {
-                        if (optimize && !optimize2) {
-                            optimize2 = true;
-                        } else {
-                            if (optimize2) {
-                                optimize2 = false;
-                                optimize = false;
-                            } else {
-                                optimize = true;
-                            }
+                        optI = ( optI + 1 ) % 5;
+                        switch (optI) {
+                            case 0: optimize3 = optimize2 = optimize = false; break;
+                            case 1: optimize3 = optimize2 = false; optimize = true; break;
+                            case 2: optimize3 = false; optimize = optimize2 = true; break;
+                            case 3: optimize3 = optimize2 = optimize = true; break;
                         }
                     } break;
             }
@@ -899,6 +1055,7 @@ public class CubeMain {
 
     protected boolean optimize = false;
     protected boolean optimize2 = false;
+    protected boolean optimize3 = false;
     protected int vcount = 0;
 
     public class Cube {
@@ -912,36 +1069,7 @@ public class CubeMain {
         }
 
         public void render() {
-            int x = (int)(position.x * 4);
-            int y = (int)(position.y * 4);
-            int z = (int)(position.z * 4);
-            boolean o = optimize && scale.x == 0.25;
-            boolean f = !o || opt.get(getCubeKey(x,y,z+1)) == null;
-            boolean b = !o || opt.get(getCubeKey(x,y,z-1)) == null;
-            boolean l = !o || opt.get(getCubeKey(x-1,y,z)) == null;
-            boolean r = !o || opt.get(getCubeKey(x+1,y,z)) == null;
-            boolean t = !o || opt.get(getCubeKey(x,y+1,z)) == null;
-            boolean d = !o || opt.get(getCubeKey(x,y-1,z)) == null;
-
-            boolean vl = posx < position.x;
-            boolean vr = posx > (position.x + scale.x);
-            if (!vl && !vr) vl = vr = true;
-            boolean vd = posy < position.y;
-            boolean vt = posy > (position.y + scale.y);
-            if (!vt && !vd) vt = vd = true;
-            boolean vb = posz < position.z;
-            boolean vf = posz > (position.z + scale.z);
-            if (!vf && !vb) vf = vb = true;
-
-            if (f || b || l || r || t || d) {
-                if (optimize2) {
-                    f = f && vf;
-                    b = b && vb;
-                    l = l && vl;
-                    r = r && vr;
-                    t = t && vt;
-                    d = d && vd;
-                }
+            if (!optimize && !optimize2) {
                 GL11.glPushMatrix();
                 GL11.glTranslatef(position.x, position.y, position.z);
                 GL11.glRotatef(rotation.x, 1.0f, 0.0f, 0.0f);
@@ -949,89 +1077,155 @@ public class CubeMain {
                 GL11.glRotatef(rotation.z, 0.0f, 0.0f, 1.0f);
                 GL11.glScalef(scale.x, scale.y, scale.z);
                 GL11.glColor3f(color.x, color.y, color.z);
-                //GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, 100);
-                GL11.glBegin(GL11.GL_QUADS);
-                if (f) {
-// Front Side
-                    GL11.glNormal3f(0.0f, 0.0f, 1.0f);
-                    GL11.glTexCoord2f(0.0f, 0.0f);
-                    GL11.glVertex3f(0.0f, 0.0f, 1.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
-                    GL11.glVertex3f(1.0f, 0.0f, 1.0f);
-                    GL11.glTexCoord2f(1.0f, 1.0f);
-                    GL11.glVertex3f(1.0f, 1.0f, 1.0f);
-                    GL11.glTexCoord2f(0.0f, 1.0f);
-                    GL11.glVertex3f(0.0f, 1.0f, 1.0f);
-                    vcount += 4;
-                }
-// Back Side
-                if (b) {
-                    GL11.glNormal3f(0.0f, 0.0f, -1.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
-                    GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 0.0f);
-                    GL11.glVertex3f(0.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 1.0f);
-                    GL11.glVertex3f(0.0f, 1.0f, 0.0f);
-                    GL11.glTexCoord2f(1.0f, 1.0f);
-                    GL11.glVertex3f(1.0f, 1.0f, 0.0f);
-                    vcount += 4;
-                }
-// Left Side
-                if (l) {
-                    GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 0.0f);
-                    GL11.glVertex3f(0.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
-                    GL11.glVertex3f(0.0f, 0.0f, 1.0f);
-                    GL11.glTexCoord2f(1.0f, 1.0f);
-                    GL11.glVertex3f(0.0f, 1.0f, 1.0f);
-                    GL11.glTexCoord2f(0.0f, 1.0f);
-                    GL11.glVertex3f(0.0f, 1.0f, 0.0f);
-                    vcount += 4;
-                }
-// Right Side
-                if (r) {
-                    GL11.glNormal3f(1.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 0.0f);
-                    GL11.glVertex3f(1.0f, 0.0f, 1.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
-                    GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(1.0f, 1.0f);
-                    GL11.glVertex3f(1.0f, 1.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 1.0f);
-                    GL11.glVertex3f(1.0f, 1.0f, 1.0f);
-                    vcount += 4;
-                }
-// Top Side
-                if (t) {
-                    GL11.glNormal3f(0.0f, 1.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 0.0f);
-                    GL11.glVertex3f(0.0f, 1.0f, 1.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
-                    GL11.glVertex3f(1.0f, 1.0f, 1.0f);
-                    GL11.glTexCoord2f(1.0f, 1.0f);
-                    GL11.glVertex3f(1.0f, 1.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 1.0f);
-                    GL11.glVertex3f(0.0f, 1.0f, 0.0f);
-                    vcount += 4;
-                }
-// Bottom (Down) Side
-                if (d) {
-                    GL11.glNormal3f(0.0f, -1.0f, 0.0f);
-                    GL11.glTexCoord2f(0.0f, 0.0f);
-                    GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-                    GL11.glTexCoord2f(1.0f, 0.0f);
-                    GL11.glVertex3f(1.0f, 0.0f, 1.0f);
-                    GL11.glTexCoord2f(1.0f, 1.0f);
-                    GL11.glVertex3f(0.0f, 0.0f, 1.0f);
-                    GL11.glTexCoord2f(0.0f, 1.0f);
-                    GL11.glVertex3f(0.0f, 0.0f, 0.0f);
-                    vcount += 4;
-                }
-
-                GL11.glEnd();
+                GL11.glCallList(cubeList);
                 GL11.glPopMatrix();
+            } else {
+                int x = (int)(position.x * 4);
+                int y = (int)(position.y * 4);
+                int z = (int)(position.z * 4);
+                boolean o3 = optimize3;
+                boolean o = optimize && scale.x == 0.25;
+                boolean f = !o || opt.get(getCubeKey(x,y,z+1)) == null;
+                boolean b = !o || opt.get(getCubeKey(x,y,z-1)) == null;
+                boolean l = !o || opt.get(getCubeKey(x-1,y,z)) == null;
+                boolean r = !o || opt.get(getCubeKey(x+1,y,z)) == null;
+                boolean t = !o || opt.get(getCubeKey(x,y+1,z)) == null;
+                boolean d = !o || opt.get(getCubeKey(x,y-1,z)) == null;
+
+                boolean vl = posx < position.x;
+                boolean vr = posx > (position.x + scale.x);
+                if (!vl && !vr) vl = vr = true;
+                boolean vd = posy < position.y;
+                boolean vt = posy > (position.y + scale.y);
+                if (!vt && !vd) vt = vd = true;
+                boolean vb = posz < position.z;
+                boolean vf = posz > (position.z + scale.z);
+                if (!vf && !vb) vf = vb = true;
+
+                if (f || b || l || r || t || d) {
+                    if (optimize2) {
+                        f = f && vf;
+                        b = b && vb;
+                        l = l && vl;
+                        r = r && vr;
+                        t = t && vt;
+                        d = d && vd;
+                    }
+                    GL11.glPushMatrix();
+                    GL11.glTranslatef(position.x, position.y, position.z);
+                    GL11.glRotatef(rotation.x, 1.0f, 0.0f, 0.0f);
+                    GL11.glRotatef(rotation.y, 0.0f, 1.0f, 0.0f);
+                    GL11.glRotatef(rotation.z, 0.0f, 0.0f, 1.0f);
+                    GL11.glScalef(scale.x, scale.y, scale.z);
+                    GL11.glColor3f(color.x, color.y, color.z);
+                    //GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, 100);
+                    GL11.glBegin(GL11.GL_QUADS);
+                    if (f) {
+// Front Side
+                        if (o3) {
+                            GL11.glCallList(cubeListF);
+                        } else {
+                            GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+                            GL11.glTexCoord2f(0.0f, 0.0f);
+                            GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                            GL11.glTexCoord2f(1.0f, 0.0f);
+                            GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                            GL11.glTexCoord2f(1.0f, 1.0f);
+                            GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                            GL11.glTexCoord2f(0.0f, 1.0f);
+                            GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                        }
+                        vcount += 4;
+                    }
+// Back Side
+                    if (b) {
+                        if (o3) {
+                            GL11.glCallList(cubeListB);
+                        } else {
+                            GL11.glNormal3f(0.0f, 0.0f, -1.0f);
+                            GL11.glTexCoord2f(1.0f, 0.0f);
+                            GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 0.0f);
+                            GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 1.0f);
+                            GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                            GL11.glTexCoord2f(1.0f, 1.0f);
+                            GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                        }
+                        vcount += 4;
+                    }
+// Left Side
+                    if (l) {
+                        if (o3) {
+                            GL11.glCallList(cubeListL);
+                        } else {
+                            GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 0.0f);
+                            GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                            GL11.glTexCoord2f(1.0f, 0.0f);
+                            GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                            GL11.glTexCoord2f(1.0f, 1.0f);
+                            GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                            GL11.glTexCoord2f(0.0f, 1.0f);
+                            GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                        }
+                        vcount += 4;
+                    }
+// Right Side
+                    if (r) {
+                        if (o3) {
+                            GL11.glCallList(cubeListR);
+                        } else {
+                            GL11.glNormal3f(1.0f, 0.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 0.0f);
+                            GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                            GL11.glTexCoord2f(1.0f, 0.0f);
+                            GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                            GL11.glTexCoord2f(1.0f, 1.0f);
+                            GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 1.0f);
+                            GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                        }
+                        vcount += 4;
+                    }
+// Top Side
+                    if (t) {
+                        if (o3) {
+                            GL11.glCallList(cubeListT);
+                        } else {
+                            GL11.glNormal3f(0.0f, 1.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 0.0f);
+                            GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                            GL11.glTexCoord2f(1.0f, 0.0f);
+                            GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                            GL11.glTexCoord2f(1.0f, 1.0f);
+                            GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 1.0f);
+                            GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                        }
+                        vcount += 4;
+                    }
+// Bottom (Down) Side
+                    if (d) {
+                        if (o3) {
+                            GL11.glCallList(cubeListD);
+                        } else {
+                            GL11.glNormal3f(0.0f, -1.0f, 0.0f);
+                            GL11.glTexCoord2f(0.0f, 0.0f);
+                            GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                            GL11.glTexCoord2f(1.0f, 0.0f);
+                            GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                            GL11.glTexCoord2f(1.0f, 1.0f);
+                            GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                            GL11.glTexCoord2f(0.0f, 1.0f);
+                            GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                        }
+                        vcount += 4;
+                    }
+
+                    GL11.glEnd();
+                    GL11.glPopMatrix();
+                }
             }
         }
     }
