@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83d9d02c-a3f9-4128-b250-1b26ed938e51" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/images/grass.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/images/grass_128.jpeg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java" afterPath="$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/ui/menu.xml" afterPath="$PROJECT_DIR$/resources/ui/menu.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Infinity.iws" />
@@ -16,7 +13,7 @@
     <file path="/start.xml" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373221704367" ignored="false" />
     <file path="$PROJECT_DIR$/../CubeTest/src/org/anhalter42/cubetest/CubeTest.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373221523285" ignored="false" />
     <file path="/CubeMain.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374518750030" ignored="false" />
-    <file path="/Dummy.txt" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374508321532" ignored="false" />
+    <file path="/Dummy.txt" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374519085309" ignored="false" />
     <file path="/menu.xml" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1374419690687" ignored="false" />
     <file path="/MetaObject.java" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373550568999" ignored="false" />
     <file path="/a.dummy" changelist="83d9d02c-a3f9-4128-b250-1b26ed938e51" time="1373533909320" ignored="false" />
@@ -100,11 +97,11 @@
       <file leaf-file-name="CubeMain.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="839" column="67" selection-start="30142" selection-end="30142" vertical-scroll-proportion="0.3902439">
+            <state line="1292" column="45" selection-start="47693" selection-end="47693" vertical-scroll-proportion="0.6410579">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1724#1730#0" expanded="true" />
-                <element signature="e#1786#1801#0" expanded="true" />
+                <element signature="e#1782#1788#0" expanded="true" />
+                <element signature="e#1844#1859#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -594,7 +591,11 @@
       <created>1374432198127</created>
       <updated>1374432198127</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="next4">
+      <created>1374519100601</created>
+      <updated>1374519100601</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -665,7 +666,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="next3" />
+    <option name="LAST_COMMIT_MESSAGE" value="next4" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -683,6 +684,7 @@
     <MESSAGE value="metaobject initial" />
     <MESSAGE value="next2" />
     <MESSAGE value="next3" />
+    <MESSAGE value="next4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -782,11 +784,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/infinity/prototyp/cubes/CubeMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="839" column="67" selection-start="30142" selection-end="30142" vertical-scroll-proportion="0.3902439">
+        <state line="1292" column="45" selection-start="47693" selection-end="47693" vertical-scroll-proportion="0.6410579">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1724#1730#0" expanded="true" />
-            <element signature="e#1786#1801#0" expanded="true" />
+            <element signature="e#1782#1788#0" expanded="true" />
+            <element signature="e#1844#1859#0" expanded="true" />
           </folding>
         </state>
       </provider>

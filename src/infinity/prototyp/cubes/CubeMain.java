@@ -1291,7 +1291,7 @@ public class CubeMain {
                 elapsedTime = lElapsedTime / (double) 1000000;
                 elapsedTimeS += elapsedTime;
                 // running time
-                double ldurationMS = (lastTime-firstTime)/1e9;
+                double ldurationMS = (lastTime-firstTime)/1000000; ///1e9;
                 durationMS = (long) ldurationMS;
                 return elapsedTime;
             }
