@@ -1291,7 +1291,7 @@ public class CubeMain {
                 elapsedTime = lElapsedTime / (double) 1000000;
                 elapsedTimeS += elapsedTime;
                 // running time
-                double ldurationMS = (lastTime-firstTime)/1e9;
+                double ldurationMS = (lastTime-firstTime)/1000000;
                 durationMS = (long) ldurationMS;
                 return elapsedTime;
             }
@@ -1302,7 +1302,7 @@ public class CubeMain {
         }
 
         public String getRuntime() {
-            return new SimpleDateFormat("HH:mm:ss").format(new Date(durationMS));
+            return new SimpleDateFormat("hh:mm:ss").format(new Date(durationMS));
         }
     }
 }
