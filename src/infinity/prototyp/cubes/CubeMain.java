@@ -431,34 +431,38 @@ public class CubeMain {
             for (int z = -h; z <= h; z++) {
                 int yy = (int) (Math.sin(x / wheight) * Math.cos(z / wheight) * wheight);
                 for(int y=yy-d;y<=yy;y++) {
-                    Cube c = new Cube();
-                    c.position.set(x * scale, y * scale, z * scale);
+                    if (y <= -wheight && (y % 5) == 0) {
 
-                    if (y < 0) {
-                        if (y <= -(wheight-1)) {
-                            c.color.x = 0.3f;
-                            c.color.y = 0.3f;
-                            c.color.z = 1.0f;
-                        } else {
-                            c.color.x = ((wheight-y)/wheight);
-                            c.color.y = c.color.x * 0.8f;
-                            c.color.z = c.color.y * 0.5f;
-                        }
                     } else {
-                        if (x < 0 && z < 0) {
-                            c.color.y = 0.8f;
-                        } else if (x > 0 && z < 0) {
-                            //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
-                            c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
-                            c.color.x = c.color.y;
+                        Cube c = new Cube();
+                        c.position.set(x * scale, y * scale, z * scale);
+
+                        if (y < 0) {
+                            if (y <= -(wheight-1)) {
+                                c.color.x = 0.3f;
+                                c.color.y = 0.3f;
+                                c.color.z = 1.0f;
+                            } else {
+                                c.color.x = ((wheight-y)/wheight);
+                                c.color.y = c.color.x * 0.8f;
+                                c.color.z = c.color.y * 0.5f;
+                            }
                         } else {
-                            c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
-                            //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
+                            if (x < 0 && z < 0) {
+                                c.color.y = 0.8f;
+                            } else if (x > 0 && z < 0) {
+                                //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
+                                c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
+                                c.color.x = c.color.y;
+                            } else {
+                                c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
+                                //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
+                            }
                         }
+                        c.scale.set(scale, scale, scale);
+                        cubes.add(c);
+                        opt.put(getCubeKey(x,y,z), c);
                     }
-                    c.scale.set(scale, scale, scale);
-                    cubes.add(c);
-                    opt.put(getCubeKey(x,y,z), c);
                 }
             }
         }
@@ -1060,6 +1064,8 @@ public class CubeMain {
     protected boolean optimize2 = false;
     protected boolean optimize3 = false;
     protected int vcount = 0;
+    protected boolean useTriangles = true;
+
 
     public class Cube {
         public Vector3f position = new Vector3f();
@@ -1122,108 +1128,238 @@ public class CubeMain {
                     GL11.glScalef(scale.x, scale.y, scale.z);
                     GL11.glColor3f(color.x, color.y, color.z);
                     //GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, 100);
-                    GL11.glBegin(GL11.GL_QUADS);
-                    if (f) {
+                    if (useTriangles && !o3) {
+                        GL11.glBegin(GL11.GL_TRIANGLES);
+                    } else {
+                        GL11.glBegin(GL11.GL_QUADS);
+                    }
 // Front Side
+                    if (f) {
                         if (o3) {
                             GL11.glCallList(cubeListF);
                         } else {
-                            GL11.glNormal3f(0.0f, 0.0f, 1.0f);
-                            GL11.glTexCoord2f(0.0f, 0.0f);
-                            GL11.glVertex3f(0.0f, 0.0f, 1.0f);
-                            GL11.glTexCoord2f(1.0f, 0.0f);
-                            GL11.glVertex3f(1.0f, 0.0f, 1.0f);
-                            GL11.glTexCoord2f(1.0f, 1.0f);
-                            GL11.glVertex3f(1.0f, 1.0f, 1.0f);
-                            GL11.glTexCoord2f(0.0f, 1.0f);
-                            GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                            if (useTriangles) {
+                                GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                            } else {
+                                GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                            }
                         }
-                        vcount += 4;
+                        if (useTriangles) {
+                            vcount += 6;
+                        } else {
+                            vcount += 4;
+                        }
                     }
 // Back Side
                     if (b) {
                         if (o3) {
                             GL11.glCallList(cubeListB);
                         } else {
-                            GL11.glNormal3f(0.0f, 0.0f, -1.0f);
-                            GL11.glTexCoord2f(1.0f, 0.0f);
-                            GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 0.0f);
-                            GL11.glVertex3f(0.0f, 0.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 1.0f);
-                            GL11.glVertex3f(0.0f, 1.0f, 0.0f);
-                            GL11.glTexCoord2f(1.0f, 1.0f);
-                            GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                            if (useTriangles) {
+                                GL11.glNormal3f(0.0f, 0.0f, -1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                            } else {
+                                GL11.glNormal3f(0.0f, 0.0f, -1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                            }
                         }
-                        vcount += 4;
+                        if (useTriangles) {
+                            vcount += 6;
+                        } else {
+                            vcount += 4;
+                        }
                     }
 // Left Side
                     if (l) {
                         if (o3) {
                             GL11.glCallList(cubeListL);
                         } else {
-                            GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 0.0f);
-                            GL11.glVertex3f(0.0f, 0.0f, 0.0f);
-                            GL11.glTexCoord2f(1.0f, 0.0f);
-                            GL11.glVertex3f(0.0f, 0.0f, 1.0f);
-                            GL11.glTexCoord2f(1.0f, 1.0f);
-                            GL11.glVertex3f(0.0f, 1.0f, 1.0f);
-                            GL11.glTexCoord2f(0.0f, 1.0f);
-                            GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                            if (useTriangles) {
+                                GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                            } else {
+                                GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                            }
                         }
-                        vcount += 4;
+                        if (useTriangles) {
+                            vcount += 6;
+                        } else {
+                            vcount += 4;
+                        }
                     }
 // Right Side
                     if (r) {
                         if (o3) {
                             GL11.glCallList(cubeListR);
                         } else {
-                            GL11.glNormal3f(1.0f, 0.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 0.0f);
-                            GL11.glVertex3f(1.0f, 0.0f, 1.0f);
-                            GL11.glTexCoord2f(1.0f, 0.0f);
-                            GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-                            GL11.glTexCoord2f(1.0f, 1.0f);
-                            GL11.glVertex3f(1.0f, 1.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 1.0f);
-                            GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                            if (useTriangles) {
+                                GL11.glNormal3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                            } else {
+                                GL11.glNormal3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                            }
                         }
-                        vcount += 4;
+                        if (useTriangles) {
+                            vcount += 6;
+                        } else {
+                            vcount += 4;
+                        }
                     }
 // Top Side
                     if (t) {
                         if (o3) {
                             GL11.glCallList(cubeListT);
                         } else {
-                            GL11.glNormal3f(0.0f, 1.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 0.0f);
-                            GL11.glVertex3f(0.0f, 1.0f, 1.0f);
-                            GL11.glTexCoord2f(1.0f, 0.0f);
-                            GL11.glVertex3f(1.0f, 1.0f, 1.0f);
-                            GL11.glTexCoord2f(1.0f, 1.0f);
-                            GL11.glVertex3f(1.0f, 1.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 1.0f);
-                            GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                            if (useTriangles) {
+                                GL11.glNormal3f(0.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                            } else {
+                                GL11.glNormal3f(0.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 1.0f, 0.0f);
+                            }
                         }
-                        vcount += 4;
+                        if (useTriangles) {
+                            vcount += 6;
+                        } else {
+                            vcount += 4;
+                        }
                     }
 // Bottom (Down) Side
                     if (d) {
                         if (o3) {
                             GL11.glCallList(cubeListD);
                         } else {
-                            GL11.glNormal3f(0.0f, -1.0f, 0.0f);
-                            GL11.glTexCoord2f(0.0f, 0.0f);
-                            GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-                            GL11.glTexCoord2f(1.0f, 0.0f);
-                            GL11.glVertex3f(1.0f, 0.0f, 1.0f);
-                            GL11.glTexCoord2f(1.0f, 1.0f);
-                            GL11.glVertex3f(0.0f, 0.0f, 1.0f);
-                            GL11.glTexCoord2f(0.0f, 1.0f);
-                            GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                            if (useTriangles) {
+                                GL11.glNormal3f(0.0f, -1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                            } else {
+                                GL11.glNormal3f(0.0f, -1.0f, 0.0f);
+                                GL11.glTexCoord2f(0.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+                                GL11.glTexCoord2f(1.0f, 0.0f);
+                                GL11.glVertex3f(1.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(1.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 1.0f);
+                                GL11.glTexCoord2f(0.0f, 1.0f);
+                                GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+                            }
                         }
-                        vcount += 4;
+                        if (useTriangles) {
+                            vcount += 6;
+                        } else {
+                            vcount += 4;
+                        }
                     }
 
                     GL11.glEnd();
