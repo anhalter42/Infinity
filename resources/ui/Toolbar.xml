@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml"/>
+    <style id="smalllabel">
+        <attributes font="aurulent-sans-16.fnt"/>
+    </style>
+    <screen id="Screen1">
+      <layer id="layer1" childLayout="center" width="30%">
+          <panel height="100%" width="30%" align="left" valign="center" childLayout="center" visibleToMouse="true" backgroundColor="#4648">
+              <effect>
+                  <onStartScreen name="move" mode="in" direction="left" length="300" startDelay="0" inherit="true"/>
+                  <onEndScreen name="move" mode="out" direction="left" length="300" startDelay="0" inherit="true"/>
+              </effect>
+              <panel height="40%" align="left" valign="top" childLayout="center" visibleToMouse="true">
+                  <text id="lbl_Tools" width="100%" font="aurulent-sans-16.fnt" text="Tools" align="center" valign="top" backgroundColor="#4648"/>
+              </panel>
+              <panel height="30%" align="left" valign="center" childLayout="center" visibleToMouse="true">
+                  <text id="lbl_Textures" width="90%" font="aurulent-sans-16.fnt" text="Textures" align="center" valign="top" backgroundColor="#4648"/>
+                  <panel align="left" height="100%" valign="center" childLayout="vertical" visibleToMouse="true">
+                      <text id="lbl_choicetextures"  text="Texturauswahl : " font="aurulent-sans-16.fnt" width="100px" align="left" textVAlign="top" textHAlign="left"/>
+                      <control id="img_texture" name="imageSelect" />
+                  </panel>
+              </panel>
+              <panel height="30%" align="left" valign="bottom" childLayout="vertical" visibleToMouse="true">
+                  <text id="lbl_Options" width="100%" font="aurulent-sans-16.fnt" text="Options" align="center" valign="top" backgroundColor="#4648"/>
+                  <panel align="left" valign="center" childLayout="horizontal" visibleToMouse="true">
+                      <text id="lbl_Shadertype"  text="Shadertype : " font="aurulent-sans-16.fnt" width="100px" align="left" textVAlign="top" textHAlign="left"/>
+                      <control id="dpd_Shadertype" name="dropDown"/>
+                  </panel>
+                  <panel align="left" valign="center" childLayout="horizontal" visibleToMouse="true">
+                      <text id="lbl_Optitype" text="Optimizertype : " font="aurulent-sans-16.fnt" width="100px" align="left" textVAlign="top" textHAlign="left" />
+                      <control id="dpd_Optitype" name="dropDown" />
+                  </panel>
+                  <panel align="left" height="10%" valign="top" childLayout="horizontal" visibleToMouse="true">
+                      <text id="lbl_Polygonmode" text="Polygonmode : " font="aurulent-sans-16.fnt" width="100px" align="left" textVAlign="top" textHAlign="left" />
+                      <control id="chb_polygonmode" name="checkbox" />
+                  </panel>
+              </panel>
+          </panel>
+      </layer>
+    </screen>
+    <screen id="empty">
+        <layer id="lTopDebug" childLayout="vertical">
+            <panel childLayout="horizontal">
+                <text id="tFPS" style="smalllabel" text="0" width="100%">
+                </text>
+            </panel>
+        </layer>
+    </screen>
+</nifty>
