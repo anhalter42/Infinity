@@ -1,11 +1,9 @@
 package infinity.prototyp.utils;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +14,10 @@ import java.io.IOException;
  */
 public class ResourceLoaderObj3DModel {
 
+    protected Model3D model;
+    protected Model3D.Object3D object3D;
+    protected Model3D.Material material;
+
     private static Vector3f parseVertex(String line) {
         String[] xyz = line.split(" ");
         float x = Float.valueOf(xyz[1]);
@@ -24,52 +26,155 @@ public class ResourceLoaderObj3DModel {
         return new Vector3f(x, y, z);
     }
 
+    private static Vector3f parseTextureCoordinate(String line) {
+        String[] xyz = line.split(" ");
+        float u = Float.valueOf(xyz[1]);
+        float v = Float.valueOf(xyz[2]);
+        float w = xyz.length > 2 ? Float.valueOf(xyz[3]) : 0;
+        return new Vector3f(u, v, w);
+    }
+
     private static Vector3f parseNormal(String line) {
         String[] xyz = line.split(" ");
-        float x = Float.valueOf(xyz[1]);
-        float y = Float.valueOf(xyz[2]);
-        float z = Float.valueOf(xyz[3]);
-        return new Vector3f(x, y, z);
+        float i = Float.valueOf(xyz[1]);
+        float j = Float.valueOf(xyz[2]);
+        float k = Float.valueOf(xyz[3]);
+        return new Vector3f(i, j, k);
     }
 
-    private static Model3D.Face parseFace(boolean hasNormals, String line) {
+    private Model3D.Face parseFace(String line) {
         String[] faceIndices = line.split(" ");
-        int[] vertexIndicesArray = {Integer.parseInt(faceIndices[1].split("/")[0]),
-                Integer.parseInt(faceIndices[2].split("/")[0]), Integer.parseInt(faceIndices[3].split("/")[0])};
-        if (hasNormals) {
-            int[] normalIndicesArray = new int[3];
-            normalIndicesArray[0] = Integer.parseInt(faceIndices[1].split("/")[2]);
-            normalIndicesArray[1] = Integer.parseInt(faceIndices[2].split("/")[2]);
-            normalIndicesArray[2] = Integer.parseInt(faceIndices[3].split("/")[2]);
-            return new Model3D.Face(vertexIndicesArray, normalIndicesArray);
-        } else {
-            return new Model3D.Face((vertexIndicesArray));
+        Model3D.Face face = object3D.newFace();
+        face.setMaterial(material);
+        String[] l1 = faceIndices[1].split("/");
+        String[] l2 = faceIndices[1].split("/");
+        String[] l3 = faceIndices[1].split("/");
+        face.getVertexIndices()[0] = Integer.parseInt(l1[0])-1;
+        face.getVertexIndices()[1] = Integer.parseInt(l2[0])-1;
+        face.getVertexIndices()[2] = Integer.parseInt(l3[0])-1;
+        if (model.hasTextureCoordinates()) {
+            face.getTextureCoordinateIndices()[0] = Integer.parseInt(l1[1])-1;
+            face.getTextureCoordinateIndices()[1] = Integer.parseInt(l2[1])-1;
+            face.getTextureCoordinateIndices()[2] = Integer.parseInt(l3[1])-1;
         }
+        if (model.hasNormals()) {
+            face.getNormalIndices()[0] = Integer.parseInt(l1[2])-1;
+            face.getNormalIndices()[1] = Integer.parseInt(l2[2])-1;
+            face.getNormalIndices()[2] = Integer.parseInt(l3[2])-1;
+        }
+        return face;
     }
 
-    public static Model3D loadModel(File f) throws IOException {
+    protected Model3D.Object3D acquireObject3D() {
+        if (object3D == null) {
+            object3D = model.newObject("Dummy");
+        }
+        return object3D;
+    }
+
+    public Model3D loadModel(File f) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(f));
-        Model3D m = new Model3D();
-        Model3D.Object3D o = null;
+        model = new Model3D();
+        model.setName(f.getName());
         String line;
         while ((line = reader.readLine()) != null) {
+            if (line.length() == 0) {
+                continue;
+            }
             String[] parts = line.split(" ");
             String prefix = parts[0];
             if (prefix.equals("#")) {
                 continue;
-            } else if (prefix.equals("o")) {
-                o = m.newObject(parts[1]);
+            } else if (prefix.equals("o") || prefix.equals("g")) {
+                object3D = model.newObject(parts[1]);
             } else if (prefix.equals("v")) {
-                o.getVertices().add(parseVertex(line));
+                model.getVertices().add(parseVertex(line));
+            } else if (prefix.equals("vt")) {
+                model.getTextureCoordinates().add(parseTextureCoordinate(line));
             } else if (prefix.equals("vn")) {
-                o.getNormals().add(parseNormal(line));
+                model.getNormals().add(parseNormal(line));
+            } else if (prefix.equals("mtllib")) {
+                for(int i=1;i<parts.length;i++) {
+                    loadMaterialLibrary(new File(f.getParentFile().getAbsolutePath() + File.separator + parts[i]));
+                }
+            } else if (prefix.equals("usemtl")) {
+                material = model.getMaterial(parts[1]);
+                if (material == null) {
+                    throw new RuntimeException("OBJ file '" + f.toString() + "'references unknown material: " + line);
+                }
             } else if (prefix.equals("f")) {
-                o.getFaces().add(parseFace(o.hasNormals(), line));
+                acquireObject3D().getFaces().add(parseFace(line));
+            } else if (prefix.equals("s")) {
+                acquireObject3D().setSmoothShadingEnabled(!parts[1].equals("off"));
             } else {
-                throw new RuntimeException("OBJ file contains line which cannot be parsed correctly: " + line);
+                throw new RuntimeException("OBJ file '" + f.toString() + "' contains line which cannot be parsed correctly: " + line);
             }
         }
         reader.close();
-        return m;
+        return model;
+    }
+
+    public Model3D loadMaterialLibrary(File f) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(f));
+        if (model == null) {
+            model = new Model3D();
+            model.setName(f.getName());
+        }
+        if (model.getMaterial("None") == null) {
+            model.newMaterial("None");
+        }
+        material = null;
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.length() == 0) {
+                continue;
+            }
+            String[] parts = line.split(" ");
+            String prefix = parts[0];
+            if (prefix.equals("#")) {
+                continue;
+            }
+            if (prefix.equals("newmtl")) {
+                material = model.newMaterial(parts[1]);
+            } else if (prefix.equals("Ns")) {
+                material.specularCoefficient = Float.valueOf(parts[1]);
+            } else if (prefix.equals("Ka")) {
+                material.ambientColour.x = Float.valueOf(parts[1]);
+                material.ambientColour.y = Float.valueOf(parts[2]);
+                material.ambientColour.z = Float.valueOf(parts[3]);
+            } else if (prefix.equals("Ks")) {
+                material.specularColour.x = Float.valueOf(parts[1]);
+                material.specularColour.y = Float.valueOf(parts[2]);
+                material.specularColour.z = Float.valueOf(parts[3]);
+            } else if (prefix.equals("Kd")) {
+                material.diffuseColour.x = Float.valueOf(parts[1]);
+                material.diffuseColour.y = Float.valueOf(parts[2]);
+                material.diffuseColour.z = Float.valueOf(parts[3]);
+            } else if (prefix.equals("map_Kd")) {
+                material.texture = null; // load texture parts[parts.length - 1]
+            } else if (prefix.equals("d")) {
+                material.d = Float.valueOf(parts[1]);
+            } else if (prefix.equals("Ni")) {
+                material.Ni = Float.valueOf(parts[1]);
+            } else if (prefix.equals("illum")) {
+                material.illum = Integer.valueOf(parts[1]);
+            } else {
+                System.err.println("[MTL] '" + f.toString() + "' Unknown Line: " + line);
+            }
+        }
+        reader.close();
+        return model;
+    }
+
+    public static void main(String[] args) {
+        ResourceLoaderObj3DModel lLoader = new ResourceLoaderObj3DModel();
+        try {
+            Model3D m = lLoader.loadModel(new File("resources/objects/cube.obj"));
+            StringBuilder lBuilder = new StringBuilder();
+            m.dump(lBuilder);
+            System.out.print(lBuilder.toString());
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 }
