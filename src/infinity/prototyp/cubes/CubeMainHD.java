@@ -3,9 +3,10 @@ package infinity.prototyp.cubes;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.NiftyMouse;
-import de.lessvoid.nifty.controls.*;
+import de.lessvoid.nifty.controls.DropDown;
+import de.lessvoid.nifty.controls.CheckBox;
+import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
 import de.lessvoid.nifty.controls.ImageSelect;
-import de.lessvoid.nifty.loaderv2.types.ControlType;
 import de.lessvoid.nifty.render.NiftyImage;
 //import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.elements.Element;
@@ -273,28 +274,53 @@ public class CubeMainHD {
             glDisable(GL11.GL_LIGHTING);
             glEnable(GL11.GL_TEXTURE_2D);
 
-            if (showUI && !nifty.getCurrentScreen().getScreenId().equals("Screen1")) {
-                nifty.gotoScreen("Screen1");
-
+            if (pindex != dpd_Shadertype.getSelectedIndex()) {
                 pindex = dpd_Shadertype.getSelectedIndex();
-                System.out.println("Index dpd_Shadertype selected: "+ pindex);
+                System.out.println("LESEN Index dpd_Shadertype selected: "+ pindex);
+            }
 
+            if (optI != dpd_Optitype.getSelectedIndex()) {
                 optI = dpd_Optitype.getSelectedIndex();
-                System.out.println("Index dpd_Optitype selected: "+ optI);
                 switch (optI) {
                     case 0: optimize3 = optimize2 = optimize = false; break;
                     case 1: optimize3 = optimize2 = false; optimize = true; break;
                     case 2: optimize3 = false; optimize = optimize2 = true; break;
                     case 3: optimize3 = optimize2 = optimize = true; break;
                 }
+            }
 
-                if (chb_polygonmode.isChecked()) { polygonmode = true;
+            if (chb_polygonmode.isChecked()) {
+                polygonmode = true;
+            } else {
+                polygonmode = false;
+            }
+
+            if (tindex != img_texture.getSelectedImageIndex()) {
+                tindex = img_texture.getSelectedImageIndex();
+            }
+
+            if (showUI && !nifty.getCurrentScreen().getScreenId().equals("Screen1")) {
+                nifty.gotoScreen("Screen1");
+
+                //pindex = dpd_Shadertype.getSelectedIndex();
+                //System.out.println("Index dpd_Shadertype selected: "+ pindex);
+
+                /*optI = dpd_Optitype.getSelectedIndex();
+                System.out.println("Index dpd_Optitype selected: "+ optI);
+                switch (optI) {
+                    case 0: optimize3 = optimize2 = optimize = false; break;
+                    case 1: optimize3 = optimize2 = false; optimize = true; break;
+                    case 2: optimize3 = false; optimize = optimize2 = true; break;
+                    case 3: optimize3 = optimize2 = optimize = true; break;
+                } */
+
+                /*if (chb_polygonmode.isChecked()) { polygonmode = true;
                 }
                 else {
                     polygonmode = false;
-                }
+                } */
 
-                tindex = img_texture.getSelectedImageIndex();
+                //tindex = img_texture.getSelectedImageIndex();
 
 
             } else if (!showUI && !nifty.getCurrentScreen().getScreenId().equals("empty")) {
@@ -346,7 +372,7 @@ public class CubeMainHD {
     public void onDropDownSelectionChangedEvent(final String id, final DropDownSelectionChangedEvent event) {
         // in here we can use the given event to access the new selection
         pindex = event.getSelectionItemIndex();
-        System.out.println("Index selected: "+ pindex);
+        System.out.println("NiftyEventSubscriber->Index selected: "+ pindex);
     }
 
     private void initCubeList() {
