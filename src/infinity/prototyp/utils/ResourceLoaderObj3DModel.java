@@ -17,6 +17,8 @@ public class ResourceLoaderObj3DModel {
     protected Model3D model;
     protected Model3D.Object3D object3D;
     protected Model3D.Material material;
+    protected Model3D.FaceGroup group3D;
+    protected boolean isSmoothEnabled = false;
 
     private static Vector3f parseVertex(String line) {
         String[] xyz = line.split(" ");
@@ -47,20 +49,24 @@ public class ResourceLoaderObj3DModel {
         Model3D.Face face = object3D.newFace();
         face.setMaterial(material);
         String[] l1 = faceIndices[1].split("/");
-        String[] l2 = faceIndices[1].split("/");
-        String[] l3 = faceIndices[1].split("/");
+        String[] l2 = faceIndices[2].split("/");
+        String[] l3 = faceIndices[3].split("/");
+        String[] l4 = faceIndices.length > 4 ? faceIndices[4].split("/") : null;
         face.getVertexIndices()[0] = Integer.parseInt(l1[0])-1;
         face.getVertexIndices()[1] = Integer.parseInt(l2[0])-1;
         face.getVertexIndices()[2] = Integer.parseInt(l3[0])-1;
+        if (l4 != null) face.getVertexIndices()[3] = Integer.parseInt(l4[0])-1;
         if (model.hasTextureCoordinates()) {
             face.getTextureCoordinateIndices()[0] = Integer.parseInt(l1[1])-1;
             face.getTextureCoordinateIndices()[1] = Integer.parseInt(l2[1])-1;
             face.getTextureCoordinateIndices()[2] = Integer.parseInt(l3[1])-1;
+            if (l4 != null) face.getTextureCoordinateIndices()[3] = Integer.parseInt(l4[1])-1;
         }
         if (model.hasNormals()) {
             face.getNormalIndices()[0] = Integer.parseInt(l1[2])-1;
             face.getNormalIndices()[1] = Integer.parseInt(l2[2])-1;
             face.getNormalIndices()[2] = Integer.parseInt(l3[2])-1;
+            if (l4 != null) face.getNormalIndices()[3] = Integer.parseInt(l4[2])-1;
         }
         return face;
     }
@@ -83,10 +89,14 @@ public class ResourceLoaderObj3DModel {
             }
             String[] parts = line.split(" ");
             String prefix = parts[0];
-            if (prefix.equals("#")) {
+            if (prefix.startsWith("#")) {
                 continue;
-            } else if (prefix.equals("o") || prefix.equals("g")) {
+            } else if (prefix.equals("o")) {
                 object3D = model.newObject(parts[1]);
+                object3D.setSmoothShadingEnabled(isSmoothEnabled);
+                group3D = null;
+            } else if (prefix.equals("g")) {
+                group3D = acquireObject3D().acquireGroup(parts[1]);
             } else if (prefix.equals("v")) {
                 model.getVertices().add(parseVertex(line));
             } else if (prefix.equals("vt")) {
@@ -103,9 +113,14 @@ public class ResourceLoaderObj3DModel {
                     throw new RuntimeException("OBJ file '" + f.toString() + "'references unknown material: " + line);
                 }
             } else if (prefix.equals("f")) {
-                acquireObject3D().getFaces().add(parseFace(line));
+                Model3D.Face lFace = parseFace(line);
+                lFace.setSmoothShadingEnabled(isSmoothEnabled);
+                acquireObject3D().getFaces().add(lFace);
+                if (group3D != null) {
+                    group3D.getFaces().add(lFace);
+                }
             } else if (prefix.equals("s")) {
-                acquireObject3D().setSmoothShadingEnabled(!parts[1].equals("off"));
+                isSmoothEnabled = !parts[1].equals("off");
             } else {
                 throw new RuntimeException("OBJ file '" + f.toString() + "' contains line which cannot be parsed correctly: " + line);
             }
@@ -150,6 +165,10 @@ public class ResourceLoaderObj3DModel {
                 material.diffuseColour.x = Float.valueOf(parts[1]);
                 material.diffuseColour.y = Float.valueOf(parts[2]);
                 material.diffuseColour.z = Float.valueOf(parts[3]);
+            } else if (prefix.equals("Ke")) {
+                material.Ke.x = Float.valueOf(parts[1]);
+                material.Ke.y = Float.valueOf(parts[2]);
+                material.Ke.z = Float.valueOf(parts[3]);
             } else if (prefix.equals("map_Kd")) {
                 material.texture = null; // load texture parts[parts.length - 1]
             } else if (prefix.equals("d")) {
@@ -169,7 +188,7 @@ public class ResourceLoaderObj3DModel {
     public static void main(String[] args) {
         ResourceLoaderObj3DModel lLoader = new ResourceLoaderObj3DModel();
         try {
-            Model3D m = lLoader.loadModel(new File("resources/objects/cube.obj"));
+            Model3D m = lLoader.loadModel(new File("resources/objects/cubeW.obj"));
             StringBuilder lBuilder = new StringBuilder();
             m.dump(lBuilder);
             System.out.print(lBuilder.toString());

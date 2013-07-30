@@ -82,9 +82,15 @@ public class Model3D {
         aBuilder.append('\'');
         aBuilder.append(name);
         aBuilder.append('\'');
-        aBuilder.append("objects={\n");
+        aBuilder.append("\nobjects={\n");
         for(Object3D lObj : objects.values()) {
             lObj.dump(this, aBuilder);
+        }
+        aBuilder.append("}\n");
+        aBuilder.append("materials={\n");
+        for(Material lMat : materials.values()) {
+            aBuilder.append(lMat.toString());
+            aBuilder.append("\n");
         }
         aBuilder.append("}\n");
     }
@@ -120,6 +126,7 @@ public class Model3D {
         public Vector3f ambientColour = new Vector3f(0.2f, 0.2f, 0.2f);
         public Vector3f diffuseColour = new Vector3f(0.3f, 1, 1);
         public Vector3f specularColour = new Vector3f(1, 1, 1);
+        public Vector3f Ke = new Vector3f(0.0f, 0.0f, 0.0f);
         public Texture texture;
         public int illum = -1;
         public float d;
@@ -128,10 +135,19 @@ public class Model3D {
 
     public static class Face {
 
-        private final int[] vertexIndices = {-1, -1, -1};
-        private final int[] normalIndices = {-1, -1, -1};
-        private final int[] textureCoordinateIndices = {-1, -1, -1};
+        private final int[] vertexIndices = {-1, -1, -1, -1};
+        private final int[] normalIndices = {-1, -1, -1, -1};
+        private final int[] textureCoordinateIndices = {-1, -1, -1, -1};
+        private boolean enableSmoothShading = false;
         private Material material;
+
+        public boolean isSmoothShadingEnabled() {
+            return enableSmoothShading;
+        }
+
+        public void setSmoothShadingEnabled(boolean smoothShadingEnabled) {
+            this.enableSmoothShading = smoothShadingEnabled;
+        }
 
         public Material getMaterial() {
             return material;
@@ -160,34 +176,6 @@ public class Model3D {
         public Face() {
         }
 
-        public Face(int[] vertexIndices) {
-            this.vertexIndices[0] = vertexIndices[0];
-            this.vertexIndices[1] = vertexIndices[1];
-            this.vertexIndices[2] = vertexIndices[2];
-        }
-
-        public Face(int[] vertexIndices, int[] normalIndices) {
-            this.vertexIndices[0] = vertexIndices[0];
-            this.vertexIndices[1] = vertexIndices[1];
-            this.vertexIndices[2] = vertexIndices[2];
-            this.normalIndices[0] = normalIndices[0];
-            this.normalIndices[1] = normalIndices[1];
-            this.normalIndices[2] = normalIndices[2];
-        }
-
-        public Face(int[] vertexIndices, int[] normalIndices, int[] textureCoordinateIndices, Material material) {
-            this.vertexIndices[0] = vertexIndices[0];
-            this.vertexIndices[1] = vertexIndices[1];
-            this.vertexIndices[2] = vertexIndices[2];
-            this.textureCoordinateIndices[0] = textureCoordinateIndices[0];
-            this.textureCoordinateIndices[1] = textureCoordinateIndices[1];
-            this.textureCoordinateIndices[2] = textureCoordinateIndices[2];
-            this.normalIndices[0] = normalIndices[0];
-            this.normalIndices[1] = normalIndices[1];
-            this.normalIndices[2] = normalIndices[2];
-            this.material = material;
-        }
-
         @Override
         public String toString() {
             return "Face{vertices=" + getVertexIndices().length + ",normals=" + getNormalIndices().length + ",textures=" + getTextureCoordinateIndices().length + '}';
@@ -195,26 +183,33 @@ public class Model3D {
 
         public void dump(Model3D aModel, StringBuilder aBuilder) {
             if (material != null) {
-                aBuilder.append(material.toString());
+                aBuilder.append("material=");
+                aBuilder.append(material.name);
                 aBuilder.append("\n");
             }
             aBuilder.append("vertices={");
             for(int i : vertexIndices) {
-                aBuilder.append(", ");
-                aBuilder.append(aModel.getVertices().get(i).toString());
+                if (i >= 0) {
+                    aBuilder.append(", ");
+                    aBuilder.append(aModel.getVertices().get(i).toString());
+                }
             }
             aBuilder.append("}\nnormals={");
             if (hasNormals()) {
                 for(int i : normalIndices) {
-                    aBuilder.append(", ");
-                    aBuilder.append(aModel.getNormals().get(i).toString());
+                    if (i >= 0) {
+                        aBuilder.append(", ");
+                        aBuilder.append(aModel.getNormals().get(i).toString());
+                    }
                 }
             }
             aBuilder.append("}\ntextures={");
             if (hasTextureCoordinates()) {
                 for(int i : textureCoordinateIndices) {
-                    aBuilder.append(", ");
-                    aBuilder.append(aModel.getTextureCoordinates().get(i).toString());
+                    if (i >= 0) {
+                        aBuilder.append(", ");
+                        aBuilder.append(aModel.getTextureCoordinates().get(i).toString());
+                    }
                 }
             }
             aBuilder.append("}\n");
@@ -225,10 +220,28 @@ public class Model3D {
         }
     }
 
+    public static class FaceGroup {
+        private String name;
+        private final List<Face> faces = new ArrayList<Face>();
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public List<Face> getFaces() {
+            return faces;
+        }
+    }
+
     public static class Object3D {
         private String name;
         private final List<Face> faces = new ArrayList<Face>();
-        private boolean enableSmoothShading = true;
+        private final HashMap<String, FaceGroup> groups = new HashMap<String, FaceGroup>();
+        private boolean enableSmoothShading = false;
 
         public boolean isSmoothShadingEnabled() {
             return enableSmoothShading;
@@ -261,10 +274,35 @@ public class Model3D {
             aBuilder.append('\'');
             aBuilder.append("\n");
             aBuilder.append("faces={");
+            int i = 0;
             for(Face lFace : faces) {
+                aBuilder.append("\nface#" + i + "={");
                 lFace.dump(aModel, aBuilder);
+                aBuilder.append("}\n");
+                i++;
+            }
+            aBuilder.append("groups={");
+            for(FaceGroup lGroup : groups.values()) {
+                aBuilder.append(", ");
+                aBuilder.append(lGroup.getName());
             }
             aBuilder.append("}\n");
+            aBuilder.append("}\n");
+        }
+
+        public FaceGroup newGroup(String aName) {
+            FaceGroup lGroup = new FaceGroup();
+            lGroup.setName(aName);
+            groups.put(lGroup.getName(), lGroup);
+            return lGroup;
+        }
+
+        public FaceGroup acquireGroup(String aName) {
+            FaceGroup lGroup = groups.get(aName);
+            if (lGroup == null) {
+                lGroup = newGroup(aName);
+            }
+            return lGroup;
         }
     }
 }

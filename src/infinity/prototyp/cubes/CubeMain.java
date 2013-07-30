@@ -120,6 +120,7 @@ public class CubeMain {
         String niftyVersion = nifty.getVersion();
         System.out.println("nifty version: " + niftyVersion);
 
+        //nifty.fromXml("menu", this.getClass().getResourceAsStream("resources/ui/menu.xml"), "welcome");
         nifty.fromXml("resources/ui/menu.xml", "welcome");
         showUI = false;
 
@@ -466,12 +467,29 @@ public class CubeMain {
                 }
             }
         }
+        float xx=0;
+        float yy=0;
+        float zz=0;
+        for(int x=0;x<4;x++) {
+            for(int y=0;y<4;y++) {
+                for(int z=0;z<4;z++) {
+                    Cube c = new Cube();
+                    c.position.set(xx+x*scale, yy+y*scale, zz+z*scale);
+                    c.color.x = 1.0f;
+                    c.scale.set(scale,scale,scale);
+                    cubes.add(c);
+                    opt.put(getCubeKey(x,y,z), c);
+                }
+            }
+        }
+        /*
         Cube c = new Cube();
         c.position.set(0.0f, 0.0f, 0.0f);
         c.color.x = 1.0f;
         //c.scale.set(0.25f,0.25f,0.25f);
         cubes.add(c);
-        c = new Cube();
+        */
+        Cube c = new Cube();
         c.position.set(0.0f, 1.0f, 0.0f);
         c.color.z = 1.0f;
         //c.scale.set(0.25f,0.25f,0.25f);
