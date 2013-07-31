@@ -279,7 +279,7 @@ public class ModelLoadTest {
             modelList = glGenLists(1);
             Vector3f lDefColor = new Vector3f(0.5f, 0.5f, 0.5f);
             glNewList(modelList, GL_COMPILE);
-            Model3D lModel = lLoader.loadModel(new File("resources/objects/Palme.obj")); //Robot_Girl
+            Model3D lModel = lLoader.loadModel(new File("resources/objects/Robot_Girl.obj")); //Robot_Girl
             for(Model3D.Object3D lObj : lModel.getObjects().values()) {
                 for(Model3D.Face lFace : lObj.getFaces()) {
                     Vector3f lColor = lDefColor;
