@@ -140,6 +140,7 @@ public class Model3D {
         private final int[] textureCoordinateIndices = {-1, -1, -1, -1};
         private boolean enableSmoothShading = false;
         private Material material;
+        private int size = 0;
 
         public boolean isSmoothShadingEnabled() {
             return enableSmoothShading;
@@ -147,6 +148,13 @@ public class Model3D {
 
         public void setSmoothShadingEnabled(boolean smoothShadingEnabled) {
             this.enableSmoothShading = smoothShadingEnabled;
+        }
+
+        public int getSize() {
+            if (size <= 0) {
+                size = vertexIndices[0] >= 0 ? ( vertexIndices[1] >= 0 ? ( vertexIndices[2] >= 0 ? ( vertexIndices[3] >= 0 ? 4 : 3 ) : 2 ) : 1 ) : 0;
+            }
+            return size;
         }
 
         public Material getMaterial() {
@@ -217,6 +225,18 @@ public class Model3D {
 
         public void setMaterial(Material aMaterial) {
             material = aMaterial;
+        }
+
+        public Vector3f getNormal(Model3D aModel, int lIndex) {
+            return aModel.getNormals().get(getNormalIndices()[lIndex]);
+        }
+
+        public Vector3f getVertex(Model3D aModel, int lIndex) {
+            return aModel.getVertices().get(getVertexIndices()[lIndex]);
+        }
+
+        public Vector3f getTextureCoordinate(Model3D aModel, int lIndex) {
+            return aModel.getTextureCoordinates().get(getTextureCoordinateIndices()[lIndex]);
         }
     }
 

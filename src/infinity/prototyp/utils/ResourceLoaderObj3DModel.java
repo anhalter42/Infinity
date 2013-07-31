@@ -19,12 +19,15 @@ public class ResourceLoaderObj3DModel {
     protected Model3D.Material material;
     protected Model3D.FaceGroup group3D;
     protected boolean isSmoothEnabled = false;
+    protected int lineNumber = 0;
+    protected Vector3f translation = new Vector3f(0,0,0);
+    protected Vector3f scale = new Vector3f(1,1,1);
 
-    private static Vector3f parseVertex(String line) {
+    private Vector3f parseVertex(String line) {
         String[] xyz = line.split(" ");
-        float x = Float.valueOf(xyz[1]);
-        float y = Float.valueOf(xyz[2]);
-        float z = Float.valueOf(xyz[3]);
+        float x = Float.valueOf(xyz[1]) * scale.x + translation.x;
+        float y = Float.valueOf(xyz[2]) * scale.y + translation.y;
+        float z = Float.valueOf(xyz[3]) * scale.z + translation.z;
         return new Vector3f(x, y, z);
     }
 
@@ -32,7 +35,7 @@ public class ResourceLoaderObj3DModel {
         String[] xyz = line.split(" ");
         float u = Float.valueOf(xyz[1]);
         float v = Float.valueOf(xyz[2]);
-        float w = xyz.length > 2 ? Float.valueOf(xyz[3]) : 0;
+        float w = xyz.length > 3 ? Float.valueOf(xyz[3]) : 0;
         return new Vector3f(u, v, w);
     }
 
@@ -50,22 +53,22 @@ public class ResourceLoaderObj3DModel {
         face.setMaterial(material);
         String[] l1 = faceIndices[1].split("/");
         String[] l2 = faceIndices[2].split("/");
-        String[] l3 = faceIndices[3].split("/");
+        String[] l3 = faceIndices.length > 3 ? faceIndices[3].split("/") : null;
         String[] l4 = faceIndices.length > 4 ? faceIndices[4].split("/") : null;
         face.getVertexIndices()[0] = Integer.parseInt(l1[0])-1;
         face.getVertexIndices()[1] = Integer.parseInt(l2[0])-1;
-        face.getVertexIndices()[2] = Integer.parseInt(l3[0])-1;
+        if (l3 != null) face.getVertexIndices()[2] = Integer.parseInt(l3[0])-1;
         if (l4 != null) face.getVertexIndices()[3] = Integer.parseInt(l4[0])-1;
-        if (model.hasTextureCoordinates()) {
+        if (model.hasTextureCoordinates() && l1.length > 1) {
             face.getTextureCoordinateIndices()[0] = Integer.parseInt(l1[1])-1;
             face.getTextureCoordinateIndices()[1] = Integer.parseInt(l2[1])-1;
-            face.getTextureCoordinateIndices()[2] = Integer.parseInt(l3[1])-1;
+            if (l3 != null) face.getTextureCoordinateIndices()[2] = Integer.parseInt(l3[1])-1;
             if (l4 != null) face.getTextureCoordinateIndices()[3] = Integer.parseInt(l4[1])-1;
         }
-        if (model.hasNormals()) {
+        if (model.hasNormals() && l1.length > 2) {
             face.getNormalIndices()[0] = Integer.parseInt(l1[2])-1;
             face.getNormalIndices()[1] = Integer.parseInt(l2[2])-1;
-            face.getNormalIndices()[2] = Integer.parseInt(l3[2])-1;
+            if (l3 != null) face.getNormalIndices()[2] = Integer.parseInt(l3[2])-1;
             if (l4 != null) face.getNormalIndices()[3] = Integer.parseInt(l4[2])-1;
         }
         return face;
@@ -78,12 +81,31 @@ public class ResourceLoaderObj3DModel {
         return object3D;
     }
 
+    public Vector3f getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(Vector3f aTrans) {
+        translation = aTrans;
+    }
+
+    public Vector3f getScale() {
+        return scale;
+    }
+
+    public void setScale(Vector3f aScale) {
+        scale = aScale;
+    }
+
     public Model3D loadModel(File f) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(f));
         model = new Model3D();
         model.setName(f.getName());
         String line;
+        try {
+        lineNumber = 0;
         while ((line = reader.readLine()) != null) {
+            lineNumber++;
             if (line.length() == 0) {
                 continue;
             }
@@ -122,8 +144,11 @@ public class ResourceLoaderObj3DModel {
             } else if (prefix.equals("s")) {
                 isSmoothEnabled = !parts[1].equals("off");
             } else {
-                throw new RuntimeException("OBJ file '" + f.toString() + "' contains line which cannot be parsed correctly: " + line);
+                throw new RuntimeException("OBJ file '" + f.toString() + "' contains line #"+lineNumber+" which cannot be parsed correctly: " + line);
             }
+        }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         reader.close();
         return model;
@@ -188,7 +213,7 @@ public class ResourceLoaderObj3DModel {
     public static void main(String[] args) {
         ResourceLoaderObj3DModel lLoader = new ResourceLoaderObj3DModel();
         try {
-            Model3D m = lLoader.loadModel(new File("resources/objects/cubeW.obj"));
+            Model3D m = lLoader.loadModel(new File("resources/objects/minion.obj"));
             StringBuilder lBuilder = new StringBuilder();
             m.dump(lBuilder);
             System.out.print(lBuilder.toString());
