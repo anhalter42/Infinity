@@ -274,12 +274,12 @@ public class ModelLoadTest {
     private void initModel() {
         ResourceLoaderObj3DModel lLoader = new ResourceLoaderObj3DModel();
         lLoader.setTranslation(new Vector3f(0.5f,2.0f,0.5f));
-        lLoader.setScale(new Vector3f(0.25f,0.25f,0.25f));
+        //lLoader.setScale(new Vector3f(0.25f,0.25f,0.25f));
         try {
             modelList = glGenLists(1);
             Vector3f lDefColor = new Vector3f(0.5f, 0.5f, 0.5f);
             glNewList(modelList, GL_COMPILE);
-            Model3D lModel = lLoader.loadModel(new File("resources/objects/minion.obj")); //Robot_Girl
+            Model3D lModel = lLoader.loadModel(new File("resources/objects/Palme.obj")); //Robot_Girl
             for(Model3D.Object3D lObj : lModel.getObjects().values()) {
                 for(Model3D.Face lFace : lObj.getFaces()) {
                     Vector3f lColor = lDefColor;
