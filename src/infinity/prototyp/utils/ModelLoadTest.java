@@ -60,7 +60,7 @@ public class ModelLoadTest {
     private boolean showUI = true;
     private Nifty nifty;
     private boolean polygonmode = false;
-    private float lightdelta = 0.2f;
+    private float lightdelta = 0.0f;
     private int cubeList = 0;
     private int cubeListL = 0;
     private int cubeListR = 0;
@@ -70,7 +70,8 @@ public class ModelLoadTest {
     private int cubeListB = 0;
     private int optI = 0;
     private int cubeListAll = 0;
-    private int modelList = 0;
+    private int[] modelList = new int[3];
+    private int mindex = 0;
     private boolean showModel = false;
     private int pointCount = 0;
     private int triangleCount = 0;
@@ -143,7 +144,10 @@ public class ModelLoadTest {
         pnames[2] = "simplet";
         pnames[3] = "simplet2";
         pnames[4] = "simplet3";
-        for(String lName : pnames) { programs[pindex] = loadProgram(pnames[pindex]); pindex++; }
+        for (String lName : pnames) {
+            programs[pindex] = loadProgram(pnames[pindex]);
+            pindex++;
+        }
         pindex = 0;
 
         initCubeList();
@@ -232,7 +236,7 @@ public class ModelLoadTest {
 
             if (nifty.getCurrentScreen().getScreenId().equals("empty")) {
                 Element element = nifty.getCurrentScreen().findElementByName("tFPS");
-                element.getRenderer(TextRenderer.class).setText("RunningTime:"+ timer.getRuntime()+" FPS: " + timer.getFPS()+" " + (polygonmode?"P ":" ") + (optimize?"O"+optI+" ":" ") + " vcount = " + vcount + " prog:" + pnames[pindex] + " texture:" + textIds[tindex]);
+                element.getRenderer(TextRenderer.class).setText("RunningTime:" + timer.getRuntime() + " FPS: " + timer.getFPS() + " " + (polygonmode ? "P " : " ") + (optimize ? "O" + optI + " " : " ") + " vcount = " + vcount + " prog:" + pnames[pindex] + " texture:" + textIds[tindex]);
             }
             if (ticks > 400) {
                 if (showUI && !nifty.getCurrentScreen().getScreenId().equals("menu")) {
@@ -244,7 +248,7 @@ public class ModelLoadTest {
             GL11.glPolygonMode(GL_FRONT_AND_BACK, GL11.GL_FILL);
 
             timer.update();
-            ticks += timer.getElapsedTime()/20; // 1/50s
+            ticks += timer.getElapsedTime() / 20; // 1/50s
             processKeyboard((float) timer.getElapsedTime());
 
             if (nifty.update()) {
@@ -271,94 +275,123 @@ public class ModelLoadTest {
         Display.destroy();
     }
 
+    private FloatBuffer toBuffer(Vector3f aV) {
+        FloatBuffer lBuf = BufferUtils.createFloatBuffer(4);
+        lBuf.put(aV.x);
+        lBuf.put(aV.y);
+        lBuf.put(aV.z);
+        lBuf.put(1.0f);
+        lBuf.flip();
+        return lBuf;
+    }
+
+    private String mnames[] = new String[3];
+
     private void initModel() {
+        mnames[0] = "Palme";
+        mnames[1] = "Robot_girl";
+        mnames[2] = "minion";
         ResourceLoaderObj3DModel lLoader = new ResourceLoaderObj3DModel();
-        lLoader.setTranslation(new Vector3f(0.5f,2.0f,0.5f));
+        lLoader.setTranslation(new Vector3f(0.5f, 2.0f, 0.5f));
         //lLoader.setScale(new Vector3f(0.25f,0.25f,0.25f));
         try {
-            modelList = glGenLists(1);
+            int li = glGenLists(3);
+            modelList[0] = li;
+            modelList[1] = li + 1;
+            modelList[2] = li + 2;
             Vector3f lDefColor = new Vector3f(0.5f, 0.5f, 0.5f);
-            glNewList(modelList, GL_COMPILE);
-            Model3D lModel = lLoader.loadModel(new File("resources/objects/Palme.obj")); //Robot_Girl
-            for(Model3D.Object3D lObj : lModel.getObjects().values()) {
-                for(Model3D.Face lFace : lObj.getFaces()) {
-                    Vector3f lColor = lDefColor;
-                    if (lFace.getMaterial() != null) {
-                        lColor = lFace.getMaterial().diffuseColour;
-                    }
-                    switch (lFace.getSize()) {
-                        case 1: // Point
-                            GL11.glBegin(GL11.GL_POINTS);
-                            GL11.glColor3f(lColor.x, lColor.y, lColor.z);
-                            if (lFace.hasNormals()) {
-                                GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
-                            }
-                            if (lFace.hasTextureCoordinates()) {
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
-                            }
-                            GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
-                            GL11.glEnd();
-                            pointCount++;
-                            break;
-                        case 2: // Line
-                            GL11.glBegin(GL11.GL_LINES);
-                            GL11.glColor3f(lColor.x, lColor.y, lColor.z);
-                            if (lFace.hasNormals()) {
-                                GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
-                            }
-                            if (lFace.hasTextureCoordinates()) {
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 1).x, lFace.getTextureCoordinate(lModel, 1).y);
-                            }
-                            GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
-                            GL11.glVertex3f(lFace.getVertex(lModel, 1).x, lFace.getVertex(lModel, 1).y, lFace.getVertex(lModel, 1).z);
-                            GL11.glEnd();
-                            lineCount++;
-                            break;
-                        case 3: // Triangle
-                            GL11.glBegin(GL11.GL_TRIANGLES);
-                            GL11.glColor3f(lColor.x, lColor.y, lColor.z);
-                            if (lFace.hasNormals()) {
-                                GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
-                            }
-                            if (lFace.hasTextureCoordinates()) {
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 1).x, lFace.getTextureCoordinate(lModel, 1).y);
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 2).x, lFace.getTextureCoordinate(lModel, 2).y);
-                            }
-                            GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
-                            GL11.glVertex3f(lFace.getVertex(lModel, 1).x, lFace.getVertex(lModel, 1).y, lFace.getVertex(lModel, 1).z);
-                            GL11.glVertex3f(lFace.getVertex(lModel, 2).x, lFace.getVertex(lModel, 2).y, lFace.getVertex(lModel, 2).z);
-                            GL11.glEnd();
-                            triangleCount++;
-                            break;
-                        case 4: // Quad
-                            GL11.glBegin(GL11.GL_QUADS);
-                            GL11.glColor3f(lColor.x, lColor.y, lColor.z);
-                            if (lFace.hasNormals()) {
-                                GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
-                            }
-                            if (lFace.hasTextureCoordinates()) {
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 1).x, lFace.getTextureCoordinate(lModel, 1).y);
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 2).x, lFace.getTextureCoordinate(lModel, 2).y);
-                                GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 3).x, lFace.getTextureCoordinate(lModel, 3).y);
-                            }
-                            GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
-                            GL11.glVertex3f(lFace.getVertex(lModel, 1).x, lFace.getVertex(lModel, 1).y, lFace.getVertex(lModel, 1).z);
-                            GL11.glVertex3f(lFace.getVertex(lModel, 2).x, lFace.getVertex(lModel, 2).y, lFace.getVertex(lModel, 2).z);
-                            GL11.glVertex3f(lFace.getVertex(lModel, 3).x, lFace.getVertex(lModel, 3).y, lFace.getVertex(lModel, 3).z);
-                            GL11.glEnd();
-                            quadCount++;
-                            break;
+            li = 0;
+            for (String lName : mnames) {
+                pointCount = lineCount = triangleCount = quadCount = 0;
+                glNewList(modelList[li], GL_COMPILE);
+                li++;
+                Model3D lModel = lLoader.loadModel(new File("resources/objects/" + lName + ".obj"));
+                for (Model3D.Object3D lObj : lModel.getObjects().values()) {
+                    for (Model3D.Face lFace : lObj.getFaces()) {
+                        Vector3f lColor = lDefColor;
+                        if (lFace.getMaterial() != null) {
+                            lColor = lFace.getMaterial().diffuseColour;
+                        }
+                        switch (lFace.getSize()) {
+                            case 1: // Point
+                                GL11.glBegin(GL11.GL_POINTS);
+                                //glMaterial(GL_FRONT, GL_DIFFUSE, toBuffer(lColor));
+                                GL11.glColor3f(lColor.x, lColor.y, lColor.z);
+                                //GL11.glPointSize(10.0f);
+                                if (lFace.hasNormals()) {
+                                    GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
+                                }
+                                if (lFace.hasTextureCoordinates()) {
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
+                                }
+                                GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
+                                GL11.glEnd();
+                                pointCount++;
+                                break;
+                            case 2: // Line
+                                GL11.glBegin(GL11.GL_LINES);
+                                //glMaterial(GL_FRONT, GL_DIFFUSE, toBuffer(lColor));
+                                GL11.glColor3f(lColor.x, lColor.y, lColor.z);
+                                //GL11.glLineWidth(10.0f);
+                                if (lFace.hasNormals()) {
+                                    GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
+                                }
+                                if (lFace.hasTextureCoordinates()) {
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 1).x, lFace.getTextureCoordinate(lModel, 1).y);
+                                }
+                                GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
+                                GL11.glVertex3f(lFace.getVertex(lModel, 1).x, lFace.getVertex(lModel, 1).y, lFace.getVertex(lModel, 1).z);
+                                GL11.glEnd();
+                                lineCount++;
+                                break;
+                            case 3: // Triangle
+                                GL11.glBegin(GL11.GL_TRIANGLES);
+                                //glMaterial(GL_FRONT, GL_DIFFUSE, toBuffer(lColor));
+                                GL11.glColor3f(lColor.x, lColor.y, lColor.z);
+                                if (lFace.hasNormals()) {
+                                    GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
+                                }
+                                if (lFace.hasTextureCoordinates()) {
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 1).x, lFace.getTextureCoordinate(lModel, 1).y);
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 2).x, lFace.getTextureCoordinate(lModel, 2).y);
+                                }
+                                GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
+                                GL11.glVertex3f(lFace.getVertex(lModel, 1).x, lFace.getVertex(lModel, 1).y, lFace.getVertex(lModel, 1).z);
+                                GL11.glVertex3f(lFace.getVertex(lModel, 2).x, lFace.getVertex(lModel, 2).y, lFace.getVertex(lModel, 2).z);
+                                GL11.glEnd();
+                                triangleCount++;
+                                break;
+                            case 4: // Quad
+                                GL11.glBegin(GL11.GL_QUADS);
+                                //glMaterial(GL_FRONT, GL_DIFFUSE, toBuffer(lColor));
+                                GL11.glColor3f(lColor.x, lColor.y, lColor.z);
+                                if (lFace.hasNormals()) {
+                                    GL11.glNormal3f(lFace.getNormal(lModel, 0).x, lFace.getNormal(lModel, 0).y, lFace.getNormal(lModel, 0).z);
+                                }
+                                if (lFace.hasTextureCoordinates()) {
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 0).x, lFace.getTextureCoordinate(lModel, 0).y);
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 1).x, lFace.getTextureCoordinate(lModel, 1).y);
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 2).x, lFace.getTextureCoordinate(lModel, 2).y);
+                                    GL11.glTexCoord2f(lFace.getTextureCoordinate(lModel, 3).x, lFace.getTextureCoordinate(lModel, 3).y);
+                                }
+                                GL11.glVertex3f(lFace.getVertex(lModel, 0).x, lFace.getVertex(lModel, 0).y, lFace.getVertex(lModel, 0).z);
+                                GL11.glVertex3f(lFace.getVertex(lModel, 1).x, lFace.getVertex(lModel, 1).y, lFace.getVertex(lModel, 1).z);
+                                GL11.glVertex3f(lFace.getVertex(lModel, 2).x, lFace.getVertex(lModel, 2).y, lFace.getVertex(lModel, 2).z);
+                                GL11.glVertex3f(lFace.getVertex(lModel, 3).x, lFace.getVertex(lModel, 3).y, lFace.getVertex(lModel, 3).z);
+                                GL11.glEnd();
+                                quadCount++;
+                                break;
+                        }
                     }
                 }
+                glEndList();
+                System.out.println(lName + ": points=" + pointCount + " lines=" + lineCount + " triangles=" + triangleCount + " quads=" + quadCount);
             }
-            glEndList();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("points=" + pointCount + " lines=" + lineCount + " triangles=" + triangleCount + " quads=" + quadCount);
     }
 
     private void initCubeList() {
@@ -508,7 +541,7 @@ public class ModelLoadTest {
         GL11.glEndList();
         optimize = true;
         glNewList(cubeListAll, GL_COMPILE);
-        for(Cube lCube : cubes) {
+        for (Cube lCube : cubes) {
             lCube.render();
         }
         GL11.glEndList();
@@ -516,7 +549,7 @@ public class ModelLoadTest {
     }
 
     private Integer getCubeKey(int x, int y, int z) {
-        return x+y*1000+z*1000000;
+        return x + y * 1000 + z * 1000000;
     }
 
     private float wheight = 5.0f;
@@ -528,7 +561,7 @@ public class ModelLoadTest {
         for (int x = -w; x <= w; x++) {
             for (int z = -h; z <= h; z++) {
                 int yy = (int) (Math.sin(x / wheight) * Math.cos(z / wheight) * wheight);
-                for(int y=yy-d;y<=yy;y++) {
+                for (int y = yy - d; y <= yy; y++) {
                     if (y <= -wheight && (y % 5) == 0) {
 
                     } else {
@@ -536,12 +569,12 @@ public class ModelLoadTest {
                         c.position.set(x * scale, y * scale, z * scale);
 
                         if (y < 0) {
-                            if (y <= -(wheight-1)) {
+                            if (y <= -(wheight - 1)) {
                                 c.color.x = 0.3f;
                                 c.color.y = 0.3f;
                                 c.color.z = 1.0f;
                             } else {
-                                c.color.x = ((wheight-y)/wheight);
+                                c.color.x = ((wheight - y) / wheight);
                                 c.color.y = c.color.x * 0.8f;
                                 c.color.z = c.color.y * 0.5f;
                             }
@@ -550,32 +583,32 @@ public class ModelLoadTest {
                                 c.color.y = 0.8f;
                             } else if (x > 0 && z < 0) {
                                 //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
-                                c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
+                                c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight * 0.8)) * Math.cos(z / (wheight * 0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
                                 c.color.x = c.color.y;
                             } else {
-                                c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight*0.8)) * Math.cos(z / (wheight*0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
+                                c.color.y = (float) (0.5f + Math.abs((Math.sin(x / (wheight * 0.8)) * Math.cos(z / (wheight * 0.8)) * 0.5f * (0.8f + (0.21f * rnd.nextFloat())))));
                                 //c.color.y = 0.5f + (rnd.nextFloat() * 0.5f);
                             }
                         }
                         c.scale.set(scale, scale, scale);
                         cubes.add(c);
-                        opt.put(getCubeKey(x,y,z), c);
+                        opt.put(getCubeKey(x, y, z), c);
                     }
                 }
             }
         }
-        float xx=0;
-        float yy=0;
-        float zz=0;
-        for(int x=0;x<4;x++) {
-            for(int y=0;y<4;y++) {
-                for(int z=0;z<4;z++) {
+        float xx = 0;
+        float yy = 0;
+        float zz = 0;
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                for (int z = 0; z < 4; z++) {
                     Cube c = new Cube();
-                    c.position.set(xx+x*scale, yy+y*scale, zz+z*scale);
+                    c.position.set(xx + x * scale, yy + y * scale, zz + z * scale);
                     c.color.x = 1.0f;
-                    c.scale.set(scale,scale,scale);
+                    c.scale.set(scale, scale, scale);
                     cubes.add(c);
-                    opt.put(getCubeKey(x,y,z), c);
+                    opt.put(getCubeKey(x, y, z), c);
                 }
             }
         }
@@ -673,8 +706,8 @@ public class ModelLoadTest {
         glRotatef(yaw, 0, 1, 0);
         glRotatef(roll, 0, 0, 1);
         glTranslatef(-posx, -posy, -posz);
-        if (showModel)
-            glCallList(modelList);
+        if (mindex >= 0)
+            glCallList(modelList[mindex]);
         renderCubeR(0.0f, 1.0f, -5.0f, 1, 1, 1);
         renderCubeR(0.5f, 2.0f, -5.0f, 0.5f, 0.5f, 1.0f);
         renderCubeR(1.0f, 3.0f, -5.0f, 1.0f, 0.5f, 1.0f);
@@ -795,6 +828,7 @@ public class ModelLoadTest {
     private void switchToOpenGL() {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LESS);
+        GL11.glEnable(GL_COLOR_MATERIAL);
         exitOnGLError("ERROR: Could not set OpenGL depth testing options");
 
         GL11.glEnable(GL11.GL_CULL_FACE);
@@ -938,36 +972,90 @@ public class ModelLoadTest {
             boolean lDown = Keyboard.getEventKeyState();
             //System.out.println("key = " + lKey + " down = " + lDown);
             switch (lKey) {
-                case Keyboard.KEY_M: if (lDown) showModel = !showModel; break;
-                case Keyboard.KEY_LCONTROL: keySpeed = lDown; break;
-                case Keyboard.KEY_TAB: if (lDown) showUI = !showUI; break;
-                case Keyboard.KEY_W: keyUp = lDown; break;
-                case Keyboard.KEY_S: keyDown = lDown; break;
-                case Keyboard.KEY_A: keyLeft = lDown; break;
-                case Keyboard.KEY_D: keyRight = lDown; break;
-                case Keyboard.KEY_SPACE: flyUp = lDown; break;
-                case Keyboard.KEY_LSHIFT: flyDown = lDown; break;
-                case Keyboard.KEY_UP: keyRotUp = lDown; break;
-                case Keyboard.KEY_DOWN: keyRotDown = lDown; break;
-                case Keyboard.KEY_LEFT: keyRotLeft = lDown; break;
-                case Keyboard.KEY_RIGHT: keyRotRight = lDown; break;
-                case Keyboard.KEY_Z: keyRolLeft = lDown; break;
-                case Keyboard.KEY_C: keyRolRight = lDown; break;
-                case Keyboard.KEY_I: if (lDown) pindex = (pindex+1) % programs.length; break;
-                case Keyboard.KEY_T: if (lDown) tindex = (tindex+1) % textIds.length; break;
-                case Keyboard.KEY_P: if (lDown) polygonmode = !polygonmode; break;
-                case Keyboard.KEY_R: if (lDown) { posx = posy = posz = yaw = pitch = roll = posTopLeft[0] = 0.0f; } break;
-                case Keyboard.KEY_L: if (lDown) if (lightdelta != 0.0) lightdelta = 0.0f; else lightdelta = 0.2f; break;
+                case Keyboard.KEY_M:
+                    if (lDown) mindex = (mindex + 1) % mnames.length;
+                    break;
+                case Keyboard.KEY_LCONTROL:
+                    keySpeed = lDown;
+                    break;
+                case Keyboard.KEY_TAB:
+                    if (lDown) showUI = !showUI;
+                    break;
+                case Keyboard.KEY_W:
+                    keyUp = lDown;
+                    break;
+                case Keyboard.KEY_S:
+                    keyDown = lDown;
+                    break;
+                case Keyboard.KEY_A:
+                    keyLeft = lDown;
+                    break;
+                case Keyboard.KEY_D:
+                    keyRight = lDown;
+                    break;
+                case Keyboard.KEY_SPACE:
+                    flyUp = lDown;
+                    break;
+                case Keyboard.KEY_LSHIFT:
+                    flyDown = lDown;
+                    break;
+                case Keyboard.KEY_UP:
+                    keyRotUp = lDown;
+                    break;
+                case Keyboard.KEY_DOWN:
+                    keyRotDown = lDown;
+                    break;
+                case Keyboard.KEY_LEFT:
+                    keyRotLeft = lDown;
+                    break;
+                case Keyboard.KEY_RIGHT:
+                    keyRotRight = lDown;
+                    break;
+                case Keyboard.KEY_Z:
+                    keyRolLeft = lDown;
+                    break;
+                case Keyboard.KEY_C:
+                    keyRolRight = lDown;
+                    break;
+                case Keyboard.KEY_I:
+                    if (lDown) pindex = (pindex + 1) % programs.length;
+                    break;
+                case Keyboard.KEY_T:
+                    if (lDown) tindex = (tindex + 1) % textIds.length;
+                    break;
+                case Keyboard.KEY_P:
+                    if (lDown) polygonmode = !polygonmode;
+                    break;
+                case Keyboard.KEY_R:
+                    if (lDown) {
+                        posx = posy = posz = yaw = pitch = roll = posTopLeft[0] = 0.0f;
+                    }
+                    break;
+                case Keyboard.KEY_L:
+                    if (lDown) if (lightdelta != 0.0) lightdelta = 0.0f;
+                    else lightdelta = 0.2f;
+                    break;
                 case Keyboard.KEY_O:
                     if (lDown) {
-                        optI = ( optI + 1 ) % 5;
+                        optI = (optI + 1) % 5;
                         switch (optI) {
-                            case 0: optimize3 = optimize2 = optimize = false; break;
-                            case 1: optimize3 = optimize2 = false; optimize = true; break;
-                            case 2: optimize3 = false; optimize = optimize2 = true; break;
-                            case 3: optimize3 = optimize2 = optimize = true; break;
+                            case 0:
+                                optimize3 = optimize2 = optimize = false;
+                                break;
+                            case 1:
+                                optimize3 = optimize2 = false;
+                                optimize = true;
+                                break;
+                            case 2:
+                                optimize3 = false;
+                                optimize = optimize2 = true;
+                                break;
+                            case 3:
+                                optimize3 = optimize2 = optimize = true;
+                                break;
                         }
-                    } break;
+                    }
+                    break;
             }
         }
         if (keySpeed) {
@@ -1064,7 +1152,7 @@ public class ModelLoadTest {
         return shaderSource.toString();
     }
 
-    public int loadProgram(String fileName)  {
+    public int loadProgram(String fileName) {
 
         int lprogram = glCreateProgram();
 
@@ -1080,7 +1168,7 @@ public class ModelLoadTest {
             System.exit(1);
         }
 
-        glShaderSource(shader, loadShader(fileName+".vglsl"));
+        glShaderSource(shader, loadShader(fileName + ".vglsl"));
         glCompileShader(shader);
 
         if (glGetShaderi(shader, GL_COMPILE_STATUS) == 0) {
@@ -1097,7 +1185,7 @@ public class ModelLoadTest {
             System.exit(1);
         }
 
-        glShaderSource(shader, loadShader(fileName+".fglsl"));
+        glShaderSource(shader, loadShader(fileName + ".fglsl"));
         glCompileShader(shader);
 
         if (glGetShaderi(shader, GL_COMPILE_STATUS) == 0) {
@@ -1207,17 +1295,17 @@ public class ModelLoadTest {
                 GL11.glCallList(cubeList);
                 GL11.glPopMatrix();
             } else {
-                int x = (int)(position.x * 4);
-                int y = (int)(position.y * 4);
-                int z = (int)(position.z * 4);
+                int x = (int) (position.x * 4);
+                int y = (int) (position.y * 4);
+                int z = (int) (position.z * 4);
                 boolean o3 = optimize3;
                 boolean o = optimize && scale.x == 0.25;
-                boolean f = !o || opt.get(getCubeKey(x,y,z+1)) == null;
-                boolean b = !o || opt.get(getCubeKey(x,y,z-1)) == null;
-                boolean l = !o || opt.get(getCubeKey(x-1,y,z)) == null;
-                boolean r = !o || opt.get(getCubeKey(x+1,y,z)) == null;
-                boolean t = !o || opt.get(getCubeKey(x,y+1,z)) == null;
-                boolean d = !o || opt.get(getCubeKey(x,y-1,z)) == null;
+                boolean f = !o || opt.get(getCubeKey(x, y, z + 1)) == null;
+                boolean b = !o || opt.get(getCubeKey(x, y, z - 1)) == null;
+                boolean l = !o || opt.get(getCubeKey(x - 1, y, z)) == null;
+                boolean r = !o || opt.get(getCubeKey(x + 1, y, z)) == null;
+                boolean t = !o || opt.get(getCubeKey(x, y + 1, z)) == null;
+                boolean d = !o || opt.get(getCubeKey(x, y - 1, z)) == null;
 
                 boolean vl = posx < position.x;
                 boolean vr = posx > (position.x + scale.x);
@@ -1245,7 +1333,7 @@ public class ModelLoadTest {
                     GL11.glRotatef(rotation.z, 0.0f, 0.0f, 1.0f);
                     GL11.glScalef(scale.x, scale.y, scale.z);
                     GL11.glColor3f(color.x, color.y, color.z);
-                    //GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, 100);
+                    //GL11.glMaterial(GL11.GL_FRONT, GL11.GL_DIFFUSE, toBuffer(color));
                     if (useTriangles && !o3) {
                         GL11.glBegin(GL11.GL_TRIANGLES);
                     } else {
@@ -1545,7 +1633,7 @@ public class ModelLoadTest {
                 elapsedTime = lElapsedTime / (double) 1000000;
                 elapsedTimeS += elapsedTime;
                 // running time
-                double ldurationMS = (lastTime-firstTime)/1000000; ///1e9;
+                double ldurationMS = (lastTime - firstTime) / 1000000; ///1e9;
                 durationMS = (long) ldurationMS;
                 return elapsedTime;
             }
