@@ -70,7 +70,8 @@ public class ModelLoadTest {
     private int cubeListB = 0;
     private int optI = 0;
     private int cubeListAll = 0;
-    private int[] modelList = new int[3];
+    private String mnames[] = new String[4];
+    private int[] modelList = new int[mnames.length];
     private int mindex = 0;
     private boolean showModel = false;
     private int pointCount = 0;
@@ -285,20 +286,20 @@ public class ModelLoadTest {
         return lBuf;
     }
 
-    private String mnames[] = new String[3];
-
     private void initModel() {
         mnames[0] = "Palme";
         mnames[1] = "Robot_girl";
         mnames[2] = "minion";
+        mnames[3] = "IronMan";
         ResourceLoaderObj3DModel lLoader = new ResourceLoaderObj3DModel();
         lLoader.setTranslation(new Vector3f(0.5f, 2.0f, 0.5f));
         //lLoader.setScale(new Vector3f(0.25f,0.25f,0.25f));
         try {
-            int li = glGenLists(3);
+            int li = glGenLists(mnames.length);
             modelList[0] = li;
             modelList[1] = li + 1;
             modelList[2] = li + 2;
+            modelList[3] = li + 3;
             Vector3f lDefColor = new Vector3f(0.5f, 0.5f, 0.5f);
             li = 0;
             for (String lName : mnames) {
