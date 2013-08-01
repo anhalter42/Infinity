@@ -101,6 +101,10 @@ public class ResourceLoaderObj3DModel {
         BufferedReader reader = new BufferedReader(new FileReader(f));
         model = new Model3D();
         model.setName(f.getName());
+        object3D = null;
+        group3D = null;
+        material = null;
+        isSmoothEnabled = false;
         String line;
         try {
         lineNumber = 0;
